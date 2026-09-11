@@ -1,5 +1,5 @@
 ﻿<!-- ============================================================
-     eroldizdar.tr / Video to Frames Pro - Sekmeli Tanıtım ve İndirme Sayfası
+     eroldizdar.tr / Video to Frames - Sekmeli Tanıtım ve İndirme Sayfası
      Bu kodu Blogger, WordPress veya sitenizin HTML düzenleyicisine yapıştırabilirsiniz.
      ============================================================ -->
 
@@ -7,8 +7,8 @@
 
   <!-- Üst Tanıtım Başlığı -->
   <div style="text-align: center; margin-bottom: 25px;">
-    <h1 style="color: #1a202c; font-size: 28px; margin-bottom: 8px;">🎬 Video to Frames Pro / Video Kare Yakalayıcı</h1>
-    <p style="color: #718096; font-size: 16px; margin: 0;">Çoklu Oynatma Listesi (Playlist), Akıllı Zoom (Yakınlaştırma) ve Sıfır Kalite Kaybıyla Video Kare Çıkarıcı</p>
+    <h1 style="color: #1a202c; font-size: 28px; margin-bottom: 8px;">🎬 Video to Frames / Video Kare Yakalayıcı</h1>
+    <p style="color: #718096; font-size: 16px; margin: 0;">Ücretsiz, Kayıpsız ve Kurulum Gerektirmeyen (Portable) Video Kare Çıkarıcı</p>
   </div>
 
   <!-- [ADSENSE ALANI 1: ÜST BANNER] -->
@@ -20,176 +20,123 @@
   <!-- Sekme Butonları (Tabs Navigation) -->
   <div style="display: flex; gap: 10px; border-bottom: 2px solid #e2e8f0; margin-bottom: 25px;">
     <button id="btn-tr" onclick="openTab('tab-tr', 'btn-tr')" style="background: #2b6cb0; color: #fff; border: none; padding: 12px 24px; font-size: 16px; font-weight: bold; border-radius: 8px 8px 0 0; cursor: pointer; transition: all 0.3s;">
-      🇹🇷 Türkçe Detaylı Tanıtım
+      🇹🇷 Türkçe Tanıtım
     </button>
     <button id="btn-en" onclick="openTab('tab-en', 'btn-en')" style="background: #edf2f7; color: #4a5568; border: none; padding: 12px 24px; font-size: 16px; font-weight: bold; border-radius: 8px 8px 0 0; cursor: pointer; transition: all 0.3s;">
-      🇬🇧 English Full Guide
+      🇬🇧 English Guide
     </button>
   </div>
 
   <!-- ==================== SEKME 1: TÜRKÇE ==================== -->
   <div id="tab-tr" class="v2f-tab-content" style="display: block;">
     <p style="font-size: 16px;">
-      Videolardan fotoğraf veya ekran görüntüsü almak geleneksel yöntemlerle saatler süren ve piksellerin bozulduğu yorucu bir iştir. 
-      Özellikle güvenlik kamerası kayıtlarından belirli bir yüzü/plakayı yakalamak, drone çekimlerinden yüksek çözünürlüklü doğa fotoğrafları ayıklamak veya eğitim/sunum videolarından slaytları dışa aktarmak istediğinizde standart ekran görüntüsü araçları yetersiz kalır.
+      Bir videonun içinden belirli anları yüksek kalitede fotoğraf olarak kaydetmek istediğimizde ekran görüntüsü (screenshot) almak hem çok vakit kaybettirir hem de piksellerin bozulmasına yol açar. 
+      Özellikle dakikalarca süren bir videodan onlarca veya yüzlerce kare almanız gerektiğinde bunu manuel yapmak neredeyse imkansızdır.
     </p>
     <p style="font-size: 16px;">
-      Geliştirdiğim <strong>Video to Frames Pro (Video Kare Yakalayıcı)</strong>; <strong>oynatma listesi (playlist)</strong> desteği ile onlarca videoyu tek tıkla sıraya koyabilen, <strong>akıllı zoom (yakınlaştırma)</strong> özelliği ile videodaki küçük detaylara odaklanabilen ve <strong>sıfır kalite kaybıyla</strong> çalışan profesyonel, ücretsiz ve taşınabilir (portable) bir masaüstü yazılımıdır.
+      Bu sorunu çözmek için geliştirdiğim <strong>Video Kare Yakalayıcı (Video to Frames)</strong> programı; videolarınızı dilediğiniz zaman aralığıyla, eşit parçalara bölerek veya tüm kareleri tek tek olacak şekilde <strong>sıfır kalite kaybıyla</strong> fotoğraflara dönüştürür.
     </p>
 
     <h2 style="color: #2b6cb0; font-size: 22px; margin-top: 30px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;">
-      🚀 Tüm Gelişmiş Özellikler (Detaylı Liste)
+      ⭐ Öne Çıkan Özellikler
     </h2>
+    <ul style="padding-left: 20px; font-size: 15px; color: #4a5568;">
+      <li style="margin-bottom: 10px;"><strong>🚀 Kurulum Gerektirmez (Portable):</strong> Python, FFmpeg veya herhangi bir codec kurmanıza gerek yoktur. Tek bir <code>.exe</code> dosyasına çift tıklayarak doğrudan çalıştırabilirsiniz.</li>
+      <li style="margin-bottom: 10px;"><strong>💎 Sıfır Kalite Kaybı:</strong> %100 kayıpsız <strong>PNG</strong> veya %95 yüksek kalitede hafif <strong>JPG</strong> formatı seçeneği. 1080p, 2K ve 4K videolarınız orijinal pikselleriyle kaydedilir.</li>
+      <li style="margin-bottom: 10px;"><strong>🎯 4 Farklı Çıkarma Modu:</strong>
+        <ul>
+          <li><em>Saniye Aralığıyla:</em> Her 1 saniyede (veya 0.5 sn, 2 sn) 1 fotoğraf yakalama.</li>
+          <li><em>Toplam Fotoğraf Sayısı:</em> Tüm videoya eşit aralıklarla yayılan örneğin 50 adet fotoğraf.</li>
+          <li><em>Kare Sayısı Aralığıyla:</em> Her 30 karede bir çıkarma.</li>
+          <li><em>Tüm Kareler (Full FPS):</em> Videodaki istisnasız tüm tekil kareleri alma.</li>
+        </ul>
+      </li>
+      <li style="margin-bottom: 10px;"><strong>⏱️ Akıllı Zaman Damgalı İsimlendirme:</strong> Çıkarılan her resim <code>kare_00001_01m24s_350ms.jpg</code> gibi tam dakika, saniye ve milisaniye bilgisiyle adlandırılır.</li>
+      <li style="margin-bottom: 10px;"><strong>🖱️ Sürükle - Bırak Kolaylığı:</strong> Videoyu farenizle tutup doğrudan program penceresine bırakmanız yeterlidir.</li>
+      <li style="margin-bottom: 10px;"><strong>🌐 Çift Dil Arayüzü:</strong> Sağ üst köşeden tek tıkla Türkçe veya İngilizce diline geçiş yapabilirsiniz.</li>
+    </ul>
 
-    <div style="margin-top: 15px;">
-      <h3 style="color: #2d3748; font-size: 18px; margin-bottom: 5px;">1. 📋 Oynatma Listesi & Toplu İşlem (Batch Queue / Playlist)</h3>
-      <p style="font-size: 15px; color: #4a5568; margin-top: 0;">
-        Artık videoları tek tek seçip beklemek zorunda değilsiniz. 5, 50 veya 100 videoyu aynı anda sürükleyip oynatma listesine ekleyebilirsiniz. Program her videoyu sırayla otomatik işler, her biri için video adıyla özel klasör açar ve arka planda hepsini tamamlar.
-      </p>
-
-      <h3 style="color: #2d3748; font-size: 18px; margin-bottom: 5px;">2. 🔍 Akıllı Yakınlaştırma (Zoom) & Bölge Odaklama</h3>
-      <p style="font-size: 15px; color: #4a5568; margin-top: 0;">
-        Videonun tamamını değil, belirli bir nesneyi, yüzü veya detayı mı büyütmek istiyorsunuz?
-        <strong>1.25x, 1.5x, 2.0x (2 Kat) ve 3.0x (3 Kat)</strong> zoom seçenekleriyle videonun merkezine, sol üstüne, sağ üstüne veya alt köşelerine odaklanabilirsiniz. Gelişmiş <em>Lanczos-4</em> enterpolasyon algoritması kullanıldığı için yakınlaştırılan fotoğraflar bulanıklaşmaz, yüksek netlik korunur.
-      </p>
-
-      <h3 style="color: #2d3748; font-size: 18px; margin-bottom: 5px;">3. ✂️ Hassas Zaman Aralığı Kırpma (Video Trimming)</h3>
-      <p style="font-size: 15px; color: #4a5568; margin-top: 0;">
-        Videonun başını veya sonunu çıkarmak istemiyorsanız başlangıç ve bitiş saniyelerini belirleyebilirsiniz (Örn: 10. saniyeden 75. saniyeye kadar). Program sadece bu aralıktaki fotoğrafları dışa aktarır.
-      </p>
-
-      <h3 style="color: #2d3748; font-size: 18px; margin-bottom: 5px;">4. 🎯 4 Farklı Kare Alma Modu</h3>
-      <ul style="padding-left: 20px; font-size: 15px; color: #4a5568;">
-        <li><strong>Saniye Aralığıyla:</strong> Belirlediğiniz saniyede bir (örn. her 1 sn veya her 0.5 sn) kare alma.</li>
-        <li><strong>Eşit Aralıklı Toplam Kare:</strong> Video süresi ne olursa olsun baştan sona eşit aralıklarla tam olarak belirlediğiniz adette (örn. 50 fotoğraf) çıkarma.</li>
-        <li><strong>Kare Adımıyla:</strong> Her X karede bir yakalama (örn. her 30 karede bir).</li>
-        <li><strong>Tüm Kareler (Full FPS):</strong> Videodaki istisnasız tüm kareleri tek tek kaydetme.</li>
-      </ul>
-
-      <h3 style="color: #2d3748; font-size: 18px; margin-bottom: 5px;">5. 💎 Kayıpsız PNG & Yüksek Kaliteli JPG (%95)</h3>
-      <p style="font-size: 15px; color: #4a5568; margin-top: 0;">
-        %100 kayıpsız PNG ile sıfır sıkıştırma bozulması elde edebilir ya da hafif dosya boyutu için %95 ayarlanabilir JPG çıktısı alabilirsiniz. 1080p, 2K, 4K veya 8K çözünürlükteki videolar orijinal piksel boyutunda kaydedilir.
-      </p>
-
-      <h3 style="color: #2d3748; font-size: 18px; margin-bottom: 5px;">6. ⏱️ Akıllı Zaman Damgalı İsimlendirme</h3>
-      <p style="font-size: 15px; color: #4a5568; margin-top: 0;">
-        Dosyalar <code>kare_00001_01m24s_350ms.jpg</code> şeklinde kaydedilir. Her fotoğrafın videonun tam hangi dakikasında, saniyesinde ve milisaniyesinde çekildiği dosya adında yazar.
-      </p>
-
-      <h3 style="color: #2d3748; font-size: 18px; margin-bottom: 5px;">7. 🚀 %100 Portable (Kurulumsuz Tek Dosya)</h3>
-      <p style="font-size: 15px; color: #4a5568; margin-top: 0;">
-        Bilgisayarınızda Python, FFmpeg veya hiçbir ek yazılım yüklü olması gerekmez. İndirdiğiniz tek bir <code>.exe</code> dosyasına çift tıklayarak hemen kullanabilirsiniz.
-      </p>
-    </div>
-
-    <!-- [ADSENSE ALANI 2: İÇERİK ORTASI BANNER] -->
+    <!-- [ADSENSE ALANI 2: İÇERİK ORTASI] -->
     <div style="margin: 25px 0; text-align: center; min-height: 90px; background: #f7fafc; border: 1px dashed #cbd5e0; display: flex; align-items: center; justify-content: center; border-radius: 8px;">
       <!-- Buraya 2. AdSense Reklam Kodunuzu Yapıştırın -->
       <span style="color: #a0aec0; font-size: 12px;">[AdSense Reklam Alanı 2 - İçerik Ortası]</span>
     </div>
 
     <h2 style="color: #2b6cb0; font-size: 22px; margin-top: 30px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;">
-      💻 Nasıl Kullanılır?
+      💻 Nasıl Kullanılır? (3 Kolay Adım)
     </h2>
     <ol style="padding-left: 20px; font-size: 15px; color: #4a5568;">
-      <li style="margin-bottom: 8px;"><code>VideoKareYakalayici.exe</code> programını açın.</li>
-      <li style="margin-bottom: 8px;">Videolarınızı topluca pencereye sürükleyin veya "Video Ekle" butonuna basın.</li>
-      <li style="margin-bottom: 8px;">İsteğe bağlı olarak <strong>Zoom (Yakınlaştırma)</strong> seviyenizi ve kare alma modunuzu seçin.</li>
-      <li style="margin-bottom: 8px;"><strong>"Kareleri Çıkarmaya Başla"</strong> butonuna tıklayın. İlerleme çubuğunda tüm videolar sırayla işlenir ve tamamlandığında klasör otomatik açılır.</li>
+      <li style="margin-bottom: 8px;">Programı açın ve videonuzu pencereye sürükleyin (veya "Video Seç" butonuna basın).</li>
+      <li style="margin-bottom: 8px;">Kare alma modunuzu (örn: her 1 saniyede 1) ve formatı (JPG/PNG) seçin.</li>
+      <li style="margin-bottom: 8px;"><strong>"Fotoğrafları Çıkarmaya Başla"</strong> butonuna basın. İşlem bitince klasör otomatik açılır!</li>
     </ol>
   </div>
 
   <!-- ==================== SEKME 2: ENGLISH ==================== -->
   <div id="tab-en" class="v2f-tab-content" style="display: none;">
     <p style="font-size: 16px;">
-      Capturing still images from video files manually by pausing, taking screenshots, and cropping playback bars is terribly inefficient and causes severe compression artifacts. 
-      Whether you are analyzing surveillance footage, extracting high-resolution stills from 4K drone videography, or archiving presentation slides, manual screenshotting simply doesn't cut it.
+      Extracting crisp, high-resolution still images from video files has always been a frustrating task. Manually pausing, taking screenshots, and cropping playback bars takes forever and results in degraded picture quality.
     </p>
     <p style="font-size: 16px;">
-      <strong>Video to Frames Pro</strong> is a powerful, free, and portable desktop software designed to automate this workflow. Equipped with a <strong>multi-video playlist queue</strong>, <strong>high-fidelity zoom/crop focus</strong>, and <strong>zero quality loss</strong>, it delivers studio-grade frame extraction in seconds.
+      <strong>Video to Frames</strong> is a clean, modern, and open-source Windows application built to automate this entire process. It converts any video (MP4, MKV, AVI, MOV, WEBM) into high-quality images with <strong>zero quality loss</strong>.
     </p>
 
     <h2 style="color: #2b6cb0; font-size: 22px; margin-top: 30px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;">
-      🚀 Full Feature Breakdown
+      ⭐ Key Features
     </h2>
+    <ul style="padding-left: 20px; font-size: 15px; color: #4a5568;">
+      <li style="margin-bottom: 10px;"><strong>🚀 100% Portable (No Setup):</strong> Standalone <code>.exe</code> file. No Python, FFmpeg, or extra codecs required on your computer.</li>
+      <li style="margin-bottom: 10px;"><strong>💎 Zero Quality Loss:</strong> Save in lossless <strong>PNG</strong> or high-quality <strong>JPG</strong> (95% default). Original 1080p, 2K, and 4K resolutions are preserved.</li>
+      <li style="margin-bottom: 10px;"><strong>🎯 4 Extraction Modes:</strong>
+        <ul>
+          <li><em>Time Interval:</em> Capture a photo every X seconds (e.g., every 1.0s or 0.5s).</li>
+          <li><em>Total Even Count:</em> Evenly spaced across the duration (e.g., exactly 50 photos).</li>
+          <li><em>Frame Step:</em> Extract every Nth frame (e.g., every 30th frame).</li>
+          <li><em>Full FPS:</em> Extract every single individual frame.</li>
+        </ul>
+      </li>
+      <li style="margin-bottom: 10px;"><strong>⏱️ Timestamped Filenames:</strong> Files are neatly labeled with precise time (e.g., <code>frame_00001_01m24s_350ms.jpg</code>).</li>
+      <li style="margin-bottom: 10px;"><strong>🖱️ Drag & Drop:</strong> Simply drag any video directly from Explorer into the app.</li>
+      <li style="margin-bottom: 10px;"><strong>🌐 Bilingual UI:</strong> Easily toggle between English and Turkish with one click.</li>
+    </ul>
 
-    <div style="margin-top: 15px;">
-      <h3 style="color: #2d3748; font-size: 18px; margin-bottom: 5px;">1. 📋 Multi-Video Playlist & Batch Queue</h3>
-      <p style="font-size: 15px; color: #4a5568; margin-top: 0;">
-        Process one video or hundreds of videos back-to-back. Drag and drop multiple files into the playlist queue. The software automatically processes each video sequentially and organizes the output into dedicated subfolders.
-      </p>
-
-      <h3 style="color: #2d3748; font-size: 18px; margin-bottom: 5px;">2. 🔍 Smart Zoom & Region of Interest (ROI) Focus</h3>
-      <p style="font-size: 15px; color: #4a5568; margin-top: 0;">
-        Need to zoom into a specific face, license plate, or small object? Select from <strong>1.25x, 1.5x, 2.0x, or 3.0x Zoom</strong> and direct the focus to the Center, Top-Left, Top-Right, Bottom-Left, or Bottom-Right. Powered by Lanczos-4 interpolation, frames are enlarged with maximum crispness and detail.
-      </p>
-
-      <h3 style="color: #2d3748; font-size: 18px; margin-bottom: 5px;">3. ✂️ Precise Time Trimming</h3>
-      <p style="font-size: 15px; color: #4a5568; margin-top: 0;">
-        Only need photos from a specific segment? Set your exact Start Time and End Time in seconds to extract stills exclusively from that target window.
-      </p>
-
-      <h3 style="color: #2d3748; font-size: 18px; margin-bottom: 5px;">4. 🎯 4 Flexible Extraction Modes</h3>
-      <ul style="padding-left: 20px; font-size: 15px; color: #4a5568;">
-        <li><strong>Time Interval:</strong> Capture a frame every X seconds (e.g. every 1.0s or 0.5s).</li>
-        <li><strong>Evenly Distributed Count:</strong> Spread across the entire duration to grab an exact target number of photos (e.g. exactly 50 photos).</li>
-        <li><strong>Frame Step:</strong> Capture every Nth frame (e.g. every 30th frame).</li>
-        <li><strong>Full FPS:</strong> Export every single frame in the video without skipping.</li>
-      </ul>
-
-      <h3 style="color: #2d3748; font-size: 18px; margin-bottom: 5px;">5. 💎 100% Lossless PNG & High-Quality JPG</h3>
-      <p style="font-size: 15px; color: #4a5568; margin-top: 0;">
-        Choose lossless PNG for zero compression artifacts or JPG with an adjustable quality slider (defaults to 95%). 1080p, 2K, 4K, and 8K videos retain their exact native resolution.
-      </p>
-
-      <h3 style="color: #2d3748; font-size: 18px; margin-bottom: 5px;">6. ⏱️ Microsecond-Accurate Timestamped Naming</h3>
-      <p style="font-size: 15px; color: #4a5568; margin-top: 0;">
-        Images are automatically labeled with exact playback time: <code>frame_00001_01m24s_350ms.jpg</code>.
-      </p>
-
-      <h3 style="color: #2d3748; font-size: 18px; margin-bottom: 5px;">7. 🚀 100% Portable (Zero Installation)</h3>
-      <p style="font-size: 15px; color: #4a5568; margin-top: 0;">
-        No Python, FFmpeg, or dependencies needed. Download the standalone <code>.exe</code> and double-click to start extracting immediately.
-      </p>
-    </div>
-
-    <!-- [ADSENSE ALANI 2: ENGLISH MID-CONTENT BANNER] -->
+    <!-- [ADSENSE ALANI 2: ENGLISH MID-CONTENT] -->
     <div style="margin: 25px 0; text-align: center; min-height: 90px; background: #f7fafc; border: 1px dashed #cbd5e0; display: flex; align-items: center; justify-content: center; border-radius: 8px;">
       <!-- Buraya 2. AdSense Reklam Kodunuzu Yapıştırın -->
       <span style="color: #a0aec0; font-size: 12px;">[AdSense Reklam Alanı 2 - English Mid-Content]</span>
     </div>
 
     <h2 style="color: #2b6cb0; font-size: 22px; margin-top: 30px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;">
-      💻 How to Use in 3 Quick Steps
+      💻 How to Use in 3 Steps
     </h2>
     <ol style="padding-left: 20px; font-size: 15px; color: #4a5568;">
-      <li style="margin-bottom: 8px;">Launch <code>VideoToFrames.exe</code> and drop your video(s) into the playlist.</li>
-      <li style="margin-bottom: 8px;">Select your preferred extraction mode, format, and optional Zoom setting.</li>
-      <li style="margin-bottom: 8px;">Click <strong>"Start Extracting (Entire Playlist)"</strong>. The progress bar tracks the queue, and the destination folder opens automatically upon completion!</li>
+      <li style="margin-bottom: 8px;">Launch <code>VideoToFrames.exe</code> and drop your video file into the window.</li>
+      <li style="margin-bottom: 8px;">Pick your preferred extraction mode (e.g., every 1s) and format (JPG / PNG).</li>
+      <li style="margin-bottom: 8px;">Click <strong>"Start Extracting Frames"</strong>. Once finished, click "Open Folder" to view your photos!</li>
     </ol>
   </div>
 
   <!-- [ADSENSE ALANI 3: İNDİRME ÖNCESİ BÜYÜK REKLAM] -->
   <div style="margin: 30px 0 15px 0; text-align: center; min-height: 250px; background: #f7fafc; border: 1px dashed #cbd5e0; display: flex; align-items: center; justify-content: center; border-radius: 8px;">
     <!-- Buraya 3. AdSense Reklam Kodunuzu Yapıştırın (Örn: 300x250 Kare veya Responsive Reklam) -->
-    <span style="color: #a0aec0; font-size: 12px;">[AdSense Reklam Alanı 3 - İndirme Öncesi Kare Banner]</span>
+    <span style="color: #a0aec0; font-size: 12px;">[AdSense Reklam Alanı 3 - İndirme Öncesi]</span>
   </div>
 
   <!-- ==================== ORTAK İNDİRME ALANI ==================== -->
   <div style="background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%); padding: 30px; border-radius: 12px; text-align: center; margin: 30px 0; color: #ffffff; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
     <h3 style="color: #63b3ed; font-size: 22px; margin-top: 0; margin-bottom: 8px;">📥 Ücretsiz İndir / Free Download (Portable)</h3>
-    <p style="color: #cbd5e0; font-size: 14px; margin-bottom: 25px;">Windows 10 & 11 (64-bit) ile tam uyumludur. Kurulum gerektirmez, doğrudan çift tıklayıp açabilirsiniz.</p>
+    <p style="color: #cbd5e0; font-size: 14px; margin-bottom: 25px;">Windows 10 & 11 (64-bit) uyumludur. Kurulum gerektirmez, doğrudan çift tıklayıp açabilirsiniz.</p>
 
     <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
       <!-- Türkçe Sürüm İndirme Butonu -->
-      <a href="https://github.com/edizdar/video-to-frames/releases/download/v1.0.0/VideoKareYakalayici.exe" 
+      <a href="https://github.com/edizdar/video-to-frames/releases" 
          target="_blank" rel="noopener noreferrer"
          style="background: #319795; color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 8px; font-weight: bold; font-size: 15px; display: inline-flex; align-items: center; gap: 8px;">
         🇹🇷 Türkçe Sürümü İndir (.exe)
       </a>
 
       <!-- İngilizce Sürüm İndirme Butonu -->
-      <a href="https://github.com/edizdar/video-to-frames/releases/download/v1.0.0/VideoToFrames.exe" 
+      <a href="https://github.com/edizdar/video-to-frames/releases" 
          target="_blank" rel="noopener noreferrer"
          style="background: #3182ce; color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 8px; font-weight: bold; font-size: 15px; display: inline-flex; align-items: center; gap: 8px;">
         🇬🇧 Download English Edition (.exe)
@@ -197,7 +144,7 @@
     </div>
 
     <div style="margin-top: 20px; font-size: 13px; color: #a0aec0;">
-      Açık Kaynak Kodlar ve Lisans: <a href="https://github.com/edizdar/video-to-frames" target="_blank" style="color: #63b3ed; text-decoration: underline;">GitHub Deposu</a> (MIT Lisansı)
+      Açık Kaynak Kodlar: <a href="https://github.com/edizdar/video-to-frames" target="_blank" style="color: #63b3ed; text-decoration: underline;">GitHub Deposu</a> (MIT Lisansı)
     </div>
   </div>
 
