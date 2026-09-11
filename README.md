@@ -1,4 +1,4 @@
-﻿# 🎬 Video Kare Yakalayıcı / Video to Frames
+# 🎬 Video Kare Yakalayıcı / Video to Frames
 
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
@@ -51,12 +51,10 @@ The application supports **English (🇬🇧)** and **Turkish (🇹🇷)**. You 
 
 ## 📥 Download / İndirme
 
-Download the portable executable directly without installation:
+All downloads, setup guides, and portable packages are available on the official website:
+Tüm indirme seçenekleri, taşınabilir (portable) sürümler ve rehber resmi web sayfasında yer almaktadır:
 
-- 🌐 **Official Website:** [eroldizdar.tr](https://www.eroldizdar.tr/)
-- 📦 **GitHub Releases:** [Download from Releases](../../releases)
-  - `VideoToFrames.exe` (English Edition)
-  - `VideoKareYakalayici.exe` (Turkish Edition)
+👉 **[Download Video to Frames / Programı İndir (eroldizdar.tr)](https://www.eroldizdar.tr/p/video-to-frames.html)**
 
 ---
 
