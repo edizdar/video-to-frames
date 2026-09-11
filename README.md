@@ -1,4 +1,4 @@
-# 🎬 Video Kare Yakalayıcı (Video to Frames)
+﻿# 🎬 Video Kare Yakalayıcı / Video to Frames
 
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
@@ -9,88 +9,94 @@
 </p>
 
 <p align="center">
-  <b>Videolardan yüksek çözünürlüklü fotoğraflar ve kareler çıkarmak için geliştirilmiş ücretsiz, açık kaynaklı ve kurulum gerektirmeyen (portable) masaüstü aracı.</b><br>
-  <i>Developed by <a href="https://www.eroldizdar.tr/">Erol Dizdar</a></i>
+  <b>Extract high-resolution photos and frames from videos with zero quality loss. Free, open-source, and portable tool.</b><br>
+  <i>Videolardan yüksek çözünürlüklü fotoğraflar ve kareler çıkarmak için geliştirilmiş ücretsiz, açık kaynaklı ve kurulum gerektirmeyen (portable) masaüstü aracı.</i><br>
+  Developed by <a href="https://www.eroldizdar.tr/"><b>Erol Dizdar</b></a>
 </p>
 
 ---
 
-## ✨ Özellikler
+## 🌐 Language / Dil
+The application supports **English (🇬🇧)** and **Turkish (🇹🇷)**. You can switch the language at any time from the top-right corner of the window.
 
-- **🚀 Kurulum Gerektirmez (Portable):** Python veya harici bir kütüphane kurmanıza gerek yoktur. `.exe` dosyasını çift tıklayarak doğrudan çalıştırabilirsiniz.
-- **🎯 4 Farklı Kare Alma Modu:**
-  1. **Saniye Aralığıyla:** Belirlediğiniz saniyede bir (örn. her 1 saniyede veya 0.5 saniyede 1 kare).
-  2. **Eşit Aralıklı Toplam Fotoğraf:** Videonun başından sonuna eşit aralıklarla belirlediğiniz toplam adet (örn. 50 fotoğraf).
-  3. **Kare Sayısı Aralığıyla:** Her X karede bir yakalama (örn. her 30 karede bir).
-  4. **Tüm Kareler (Full FPS):** Videodaki istisnasız her bir tekil kareyi kaydeder.
-- **💎 Sıfır Kalite Kaybı:**
-  - **PNG:** %100 kayıpsız (lossless) format desteği.
-  - **JPG:** Ayarlanabilir sıkıştırma kalitesi (%10 - %100, varsayılan %95).
-  - Video hangi çözünürlükteyse (1080p, 2K, 4K) fotoğraflar da aynı çözünürlükte kaydedilir.
-- **🖱️ Sürükle ve Bırak Desteği:** Video dosyasını doğrudan program penceresine sürükleyip bırakmanız yeterlidir.
-- **⏱️ Zaman Damgalı İsimlendirme:** Çıkarılan her kare `kare_00001_01m24s_350ms.jpg` formatında dakikası, saniyesi ve milisaniyesiyle adlandırılır.
-- **⚡ Arka Planda Hızlı İşleme:** Çok çekirdekli iş parçacığı (QThread) sayesinde işlem yaparken program arayüzü asla donmaz.
+- `VideoToFrames.exe` -> Starts in English by default.
+- `VideoKareYakalayici.exe` -> Starts in Turkish by default.
 
 ---
 
-## 📥 İndirme
+## ✨ Features / Özellikler
 
-Programın derlenmiş, kuruluma ihtiyaç duymayan taşınabilir sürümünü doğrudan indirebilirsiniz:
+### 🇬🇧 English
+- **🚀 No Installation Required (Portable):** Fully standalone single-file `.exe`. No Python or codecs needed.
+- **🎯 4 Extraction Modes:**
+  1. **Time Interval:** Capture a frame every $X$ seconds (e.g. every 1s or 0.5s).
+  2. **Total Count:** Evenly distributed across video duration (e.g. exactly 50 frames).
+  3. **Frame Step:** Capture every $N$ frames (e.g. every 30th frame).
+  4. **Full FPS:** Export every single individual frame.
+- **💎 Zero Quality Loss:**
+  - **PNG:** 100% Lossless.
+  - **JPG:** High quality with adjustable compression slider (defaults to 95%).
+  - Maintains native video resolution (1080p, 2K, 4K).
+- **🖱️ Drag & Drop:** Drag any video file directly into the application.
+- **⏱️ Timestamped Filenames:** Each image is named with exact time (e.g., `frame_00001_01m24s_350ms.jpg`).
 
-- 🌐 **Web Sitesi:** [eroldizdar.tr](https://www.eroldizdar.tr/)
-- 📦 **GitHub Releases:** [Releases Sayfasından İndir](../../releases)
+### 🇹🇷 Türkçe
+- **🚀 Kurulum Gerektirmez (Portable):** Bağımsız tek dosya `.exe`. Python veya harici kütüphane gerektirmez.
+- **🎯 4 Farklı Kare Alma Modu:** Saniye aralığı, eşit aralıklı toplam adet, kare sayısı aralığı ve tüm kareler (Full FPS).
+- **💎 Sıfır Kalite Kaybı:** Kayıpsız PNG ve yüksek kaliteli ayarlanabilir JPG (%95). Orijinal çözünürlük korunur.
+- **🖱️ Sürükle ve Bırak Desteği:** Videoyu pencereye bırakmanız yeterli.
+- **⏱️ Zaman Damgalı İsimlendirme:** Dakika, saniye ve milisaniye bazlı dosya adları.
 
 ---
 
-## 🖥️ Kullanım
+## 📥 Download / İndirme
 
-### Seçenek 1: Görsel Program Arayüzü (GUI)
-1. `VideoKareYakalayici.exe` (veya `programi_baslat.bat`) dosyasını açın.
-2. Videonuzu pencereye sürükleyin veya **"Video Dosyası Seç"** butonuna basın.
-3. Çıkarmak istediğiniz modu ve formatı seçip **"Fotoğrafları Çıkarmaya Başla"** butonuna tıklayın.
-4. İşlem bitince açılan bildirimden doğrudan fotoğrafların olduğu klasöre gidebilirsiniz.
+Download the portable executable directly without installation:
 
-### Seçenek 2: Sürükle-Bırak (.BAT)
-1. Herhangi bir video dosyasını tutup `surukle_birak.bat` dosyasının üzerine bırakın.
-2. Hızlı konsol ekranı üzerinden dilediğiniz ayarla anında fotoğrafları çıkarın.
+- 🌐 **Official Website:** [eroldizdar.tr](https://www.eroldizdar.tr/)
+- 📦 **GitHub Releases:** [Download from Releases](../../releases)
+  - `VideoToFrames.exe` (English Edition)
+  - `VideoKareYakalayici.exe` (Turkish Edition)
 
 ---
 
-## 🛠️ Kaynak Koddan Çalıştırma ve Geliştirme
-
-Projeyi kaynak koddan çalıştırmak veya kendi ihtiyaçlarınıza göre düzenlemek isterseniz:
+## 🛠️ Run from Source / Kaynak Koddan Çalıştırma
 
 ```bash
-# Depoyu klonlayın
+# Clone the repository
 git clone https://github.com/edizdar/video-to-frames.git
 cd video-to-frames
 
-# Gerekli kütüphaneleri yükleyin
+# Install dependencies
 pip install -r requirements.txt
 
-# Grafik arayüzü başlatın
-python gui.py
+# Run in English
+python gui.py --lang en
 
-# Veya komut satırı arayüzü ile çalıştırın
-python cli.py "videonuz.mp4"
+# Run in Turkish
+python gui.py --lang tr
 ```
 
-### Tekrar Portable EXE Derleme:
+### Build Standalone Executables / Yeniden Derleme:
 ```bash
+# Build English edition
+pyinstaller --onefile --noconsole --name "VideoToFrames" --clean gui.py
+
+# Build Turkish edition
 pyinstaller --onefile --noconsole --name "VideoKareYakalayici" --clean gui.py
 ```
 
 ---
 
-## 👤 Geliştirici & İletişim
+## 👤 Author & Contact / Geliştirici
 
-* **Geliştirici:** Erol Dizdar
-* **Web Sitesi:** [https://www.eroldizdar.tr/](https://www.eroldizdar.tr/)
+* **Author:** Erol Dizdar
+* **Website:** [https://www.eroldizdar.tr/](https://www.eroldizdar.tr/)
 
-Projeyi beğendiyseniz GitHub üzerinde bir yıldız (⭐) vermeyi unutmayın!
+If you like this project, please consider giving it a ⭐ on GitHub!
 
 ---
 
-## 📄 Lisans
+## 📄 License / Lisans
 
-Bu proje [MIT Lisansı](LICENSE) altında lisanslanmıştır. Dilediğiniz gibi ticari veya kişisel projelerinizde kullanabilir ve geliştirebilirsiniz.
+Licensed under the [MIT License](LICENSE).
