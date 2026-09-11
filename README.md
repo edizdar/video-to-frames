@@ -1,4 +1,4 @@
-﻿# 🎬 Video Kare Yakalayıcı (Video to Frames)
+# 🎬 Video Kare Yakalayıcı (Video to Frames)
 
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
@@ -62,7 +62,7 @@ Projeyi kaynak koddan çalıştırmak veya kendi ihtiyaçlarınıza göre düzen
 
 ```bash
 # Depoyu klonlayın
-git clone https://github.com/kullaniciadi/video-to-frames.git
+git clone https://github.com/edizdar/video-to-frames.git
 cd video-to-frames
 
 # Gerekli kütüphaneleri yükleyin
