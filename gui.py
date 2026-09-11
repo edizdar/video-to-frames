@@ -5,7 +5,7 @@ from PySide6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
     QLabel, QPushButton, QFileDialog, QRadioButton, QButtonGroup,
     QDoubleSpinBox, QSpinBox, QProgressBar, QGroupBox, QLineEdit,
-    QComboBox, QMessageBox, QFrame
+    QComboBox, QMessageBox, QFrame, QGridLayout, QScrollArea, QSizePolicy
 )
 from PySide6.QtCore import Qt, QThread, Signal
 from PySide6.QtGui import QIcon, QPixmap, QDragEnterEvent, QDropEvent
@@ -31,7 +31,7 @@ TRANSLATIONS = {
         "mode_frames": "Belirli kare adımıyla:",
         "unit_frames": "karede bir",
         "hint_frames": "(Örn: Her 30 kare)",
-        "mode_every": "Tüm kareleri al (Full FPS - Her kare tek tek)",
+        "mode_every": "Tüm kareleri al (Full FPS - Her tekil kare)",
         "format_group": "Fotoğraf Formatı ve Kalite",
         "format_label": "Format:",
         "format_jpg": "JPG (Hızlı ve hafif)",
@@ -146,13 +146,13 @@ class MainWindow(QMainWindow):
     def __init__(self, default_lang="tr"):
         super().__init__()
         self.current_lang = default_lang
-        self.setMinimumSize(780, 720)
+        self.resize(760, 680)
+        self.setMinimumSize(660, 520)
         self.setAcceptDrops(True)
         self.video_path = ""
         self.video_info = None
         self.worker = None
 
-        # Set Window Icon
         base_dir = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
         icon_path = os.path.join(base_dir, "app_icon.ico")
         if os.path.exists(icon_path):
@@ -176,11 +176,15 @@ class MainWindow(QMainWindow):
                 font-family: 'Segoe UI', Tahoma, sans-serif;
                 font-size: 13px;
             }
+            QScrollArea {
+                border: none;
+                background-color: transparent;
+            }
             QGroupBox {
                 border: 1px solid #334155;
                 border-radius: 8px;
-                margin-top: 14px;
-                padding-top: 14px;
+                margin-top: 10px;
+                padding-top: 12px;
                 background-color: #1E293B;
                 font-weight: bold;
             }
@@ -189,34 +193,34 @@ class MainWindow(QMainWindow):
                 left: 14px;
                 padding: 0 6px;
                 color: #38BDF8;
-                font-size: 14px;
+                font-size: 13px;
             }
             QLineEdit {
                 background-color: #0F172A;
                 border: 1px solid #475569;
                 border-radius: 6px;
-                padding: 6px 12px;
+                padding: 4px 10px;
                 color: #F8FAFC;
-                min-height: 26px;
+                min-height: 28px;
             }
             QSpinBox, QDoubleSpinBox {
                 background-color: #0F172A;
                 border: 1px solid #475569;
                 border-radius: 6px;
-                padding: 4px 8px;
+                padding: 2px 6px;
                 color: #38BDF8;
                 font-weight: bold;
-                font-size: 14px;
-                min-height: 30px;
-                min-width: 90px;
+                font-size: 13px;
+                min-height: 28px;
+                max-height: 32px;
             }
             QComboBox {
                 background-color: #0F172A;
                 border: 1px solid #475569;
                 border-radius: 6px;
-                padding: 6px 12px;
+                padding: 4px 10px;
                 color: #F8FAFC;
-                min-height: 26px;
+                min-height: 28px;
             }
             QLineEdit:focus, QSpinBox:focus, QDoubleSpinBox:focus, QComboBox:focus {
                 border: 1px solid #38BDF8;
@@ -226,9 +230,9 @@ class MainWindow(QMainWindow):
                 color: #FFFFFF;
                 border: none;
                 border-radius: 6px;
-                padding: 8px 18px;
+                padding: 6px 16px;
                 font-weight: 600;
-                min-height: 24px;
+                min-height: 28px;
             }
             QPushButton:hover {
                 background-color: #3B82F6;
@@ -242,8 +246,8 @@ class MainWindow(QMainWindow):
             }
             QPushButton#action_btn {
                 background-color: #0D9488;
-                font-size: 15px;
-                padding: 12px 24px;
+                font-size: 14px;
+                padding: 10px 20px;
                 font-weight: bold;
             }
             QPushButton#action_btn:hover {
@@ -252,7 +256,7 @@ class MainWindow(QMainWindow):
             QPushButton#cancel_btn {
                 background-color: #DC2626;
                 font-size: 14px;
-                padding: 10px 20px;
+                padding: 8px 18px;
             }
             QPushButton#cancel_btn:hover {
                 background-color: #EF4444;
@@ -264,34 +268,34 @@ class MainWindow(QMainWindow):
                 text-align: center;
                 color: #FFFFFF;
                 font-weight: bold;
-                height: 24px;
+                height: 22px;
             }
             QProgressBar::chunk {
                 background-color: #0284C7;
                 border-radius: 5px;
             }
             QRadioButton {
-                spacing: 10px;
+                spacing: 8px;
                 font-weight: 500;
             }
             QRadioButton::indicator {
-                width: 18px;
-                height: 18px;
+                width: 16px;
+                height: 16px;
             }
             QRadioButton::indicator:checked {
                 background-color: #38BDF8;
                 border: 3px solid #0F172A;
-                outline: 2px solid #38BDF8;
-                border-radius: 9px;
+                outline: 1px solid #38BDF8;
+                border-radius: 8px;
             }
             QRadioButton::indicator:unchecked {
                 background-color: #1E293B;
                 border: 2px solid #64748B;
-                border-radius: 9px;
+                border-radius: 8px;
             }
             QFrame#drop_area {
                 border: 2px dashed #475569;
-                border-radius: 12px;
+                border-radius: 10px;
                 background-color: #1E293B;
             }
             QFrame#drop_area:hover {
@@ -301,38 +305,39 @@ class MainWindow(QMainWindow):
         """)
 
     def init_ui(self, base_dir):
-        central_widget = QWidget()
-        main_layout = QVBoxLayout(central_widget)
-        main_layout.setContentsMargins(22, 16, 22, 20)
-        main_layout.setSpacing(14)
+        scroll_area = QScrollArea(self)
+        scroll_area.setWidgetResizable(True)
+        scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        
+        container = QWidget()
+        main_layout = QVBoxLayout(container)
+        main_layout.setContentsMargins(18, 12, 18, 14)
+        main_layout.setSpacing(10)
 
-        # Top Header: Logo + App Title + Website Link + Language
+        # Header Bar: Logo + App Title + Website Link + Language
         header_layout = QHBoxLayout()
-        header_layout.setSpacing(12)
+        header_layout.setSpacing(10)
 
-        # Logo Icon
         logo_path = os.path.join(base_dir, "logo.png")
         self.logo_label = QLabel()
         if os.path.exists(logo_path):
-            pixmap = QPixmap(logo_path).scaled(42, 42, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+            pixmap = QPixmap(logo_path).scaled(36, 36, Qt.KeepAspectRatio, Qt.SmoothTransformation)
             self.logo_label.setPixmap(pixmap)
         header_layout.addWidget(self.logo_label)
 
-        # Title and Website
         title_box = QVBoxLayout()
-        title_box.setSpacing(2)
+        title_box.setSpacing(1)
         self.header_title = QLabel("Video to Frames / Video Kare Yakalayıcı")
-        self.header_title.setStyleSheet("font-size: 16px; font-weight: bold; color: #FFFFFF;")
+        self.header_title.setStyleSheet("font-size: 15px; font-weight: bold; color: #FFFFFF;")
         title_box.addWidget(self.header_title)
 
-        self.dev_link = QLabel("<a href='https://www.eroldizdar.tr/p/video-to-frames.html' style='color: #38BDF8; text-decoration: none;'>🌐 eroldizdar.tr</a>")
+        self.dev_link = QLabel("<a href='https://www.eroldizdar.tr/p/video-to-frames.html' style='color: #38BDF8; text-decoration: none; font-size: 12px;'>🌐 eroldizdar.tr</a>")
         self.dev_link.setOpenExternalLinks(True)
         title_box.addWidget(self.dev_link)
         header_layout.addLayout(title_box)
 
         header_layout.addStretch()
 
-        # Language dropdown
         self.lang_combo = QComboBox()
         self.lang_combo.addItem("🇹🇷 Türkçe", "tr")
         self.lang_combo.addItem("🇬🇧 English", "en")
@@ -347,12 +352,12 @@ class MainWindow(QMainWindow):
         self.drop_area = QFrame()
         self.drop_area.setObjectName("drop_area")
         drop_layout = QVBoxLayout(self.drop_area)
-        drop_layout.setContentsMargins(18, 16, 18, 16)
+        drop_layout.setContentsMargins(12, 12, 12, 12)
         drop_layout.setAlignment(Qt.AlignCenter)
 
         self.drop_label = QLabel()
         self.drop_label.setAlignment(Qt.AlignCenter)
-        self.drop_label.setStyleSheet("font-size: 14px; font-weight: bold; color: #E2E8F0;")
+        self.drop_label.setStyleSheet("font-size: 13px; font-weight: bold; color: #E2E8F0;")
         drop_layout.addWidget(self.drop_label)
 
         btn_hlayout = QHBoxLayout()
@@ -372,6 +377,7 @@ class MainWindow(QMainWindow):
         # 2. Çıktı Klasörü Grubu
         self.output_group = QGroupBox()
         output_layout = QHBoxLayout(self.output_group)
+        output_layout.setContentsMargins(12, 8, 12, 8)
         self.output_edit = QLineEdit()
         output_layout.addWidget(self.output_edit)
 
@@ -380,115 +386,103 @@ class MainWindow(QMainWindow):
         output_layout.addWidget(self.browse_output_btn)
         main_layout.addWidget(self.output_group)
 
-        # 3. Kare Alma Modu Grubu (YAZILAR ASLA SIĞMAMA SORUNU YAŞAMAZ)
+        # 3. Kare Alma Modu Grubu (QGridLayout İLE ASLA ÇAKIŞMAZ VE TAŞMAZ)
         self.mode_group = QGroupBox()
-        mode_layout = QVBoxLayout(self.mode_group)
-        mode_layout.setSpacing(12)
-        mode_layout.setContentsMargins(16, 16, 16, 16)
+        grid = QGridLayout(self.mode_group)
+        grid.setContentsMargins(14, 12, 14, 12)
+        grid.setVerticalSpacing(10)
+        grid.setHorizontalSpacing(10)
 
         self.btn_group = QButtonGroup(self)
 
-        # Mod 1: Saniye Aralığı
-        row1 = QHBoxLayout()
-        row1.setSpacing(8)
+        # Satır 0: Saniye Aralığı
         self.radio_sec = QRadioButton()
         self.radio_sec.setChecked(True)
         self.btn_group.addButton(self.radio_sec)
-        row1.addWidget(self.radio_sec)
+        grid.addWidget(self.radio_sec, 0, 0, Qt.AlignVCenter)
 
         self.spin_sec = QDoubleSpinBox()
         self.spin_sec.setRange(0.05, 3600.0)
         self.spin_sec.setSingleStep(0.5)
         self.spin_sec.setValue(1.0)
         self.spin_sec.setAlignment(Qt.AlignCenter)
-        row1.addWidget(self.spin_sec)
+        self.spin_sec.setFixedWidth(85)
+        grid.addWidget(self.spin_sec, 0, 1, Qt.AlignVCenter)
 
         self.lbl_unit_sec = QLabel()
         self.lbl_unit_sec.setStyleSheet("font-weight: 500; color: #F1F5F9;")
-        row1.addWidget(self.lbl_unit_sec)
+        grid.addWidget(self.lbl_unit_sec, 0, 2, Qt.AlignVCenter)
 
         self.lbl_hint_sec = QLabel()
         self.lbl_hint_sec.setStyleSheet("color: #94A3B8; font-size: 12px;")
-        row1.addWidget(self.lbl_hint_sec)
+        grid.addWidget(self.lbl_hint_sec, 0, 3, Qt.AlignVCenter)
 
-        row1.addStretch()
-        mode_layout.addLayout(row1)
-
-        # Mod 2: Toplam Kare Sayısı
-        row2 = QHBoxLayout()
-        row2.setSpacing(8)
+        # Satır 1: Toplam Kare Sayısı
         self.radio_total = QRadioButton()
         self.btn_group.addButton(self.radio_total)
-        row2.addWidget(self.radio_total)
+        grid.addWidget(self.radio_total, 1, 0, Qt.AlignVCenter)
 
         self.spin_total = QSpinBox()
         self.spin_total.setRange(1, 100000)
         self.spin_total.setValue(50)
         self.spin_total.setAlignment(Qt.AlignCenter)
-        row2.addWidget(self.spin_total)
+        self.spin_total.setFixedWidth(85)
+        grid.addWidget(self.spin_total, 1, 1, Qt.AlignVCenter)
 
         self.lbl_unit_total = QLabel()
         self.lbl_unit_total.setStyleSheet("font-weight: 500; color: #F1F5F9;")
-        row2.addWidget(self.lbl_unit_total)
+        grid.addWidget(self.lbl_unit_total, 1, 2, Qt.AlignVCenter)
 
         self.lbl_hint_total = QLabel()
         self.lbl_hint_total.setStyleSheet("color: #94A3B8; font-size: 12px;")
-        row2.addWidget(self.lbl_hint_total)
+        grid.addWidget(self.lbl_hint_total, 1, 3, Qt.AlignVCenter)
 
-        row2.addStretch()
-        mode_layout.addLayout(row2)
-
-        # Mod 3: Her X Karede Bir
-        row3 = QHBoxLayout()
-        row3.setSpacing(8)
+        # Satır 2: Her X Karede Bir
         self.radio_interval_frames = QRadioButton()
         self.btn_group.addButton(self.radio_interval_frames)
-        row3.addWidget(self.radio_interval_frames)
+        grid.addWidget(self.radio_interval_frames, 2, 0, Qt.AlignVCenter)
 
         self.spin_interval_frames = QSpinBox()
         self.spin_interval_frames.setRange(1, 5000)
         self.spin_interval_frames.setValue(30)
         self.spin_interval_frames.setAlignment(Qt.AlignCenter)
-        row3.addWidget(self.spin_interval_frames)
+        self.spin_interval_frames.setFixedWidth(85)
+        grid.addWidget(self.spin_interval_frames, 2, 1, Qt.AlignVCenter)
 
         self.lbl_unit_frames = QLabel()
         self.lbl_unit_frames.setStyleSheet("font-weight: 500; color: #F1F5F9;")
-        row3.addWidget(self.lbl_unit_frames)
+        grid.addWidget(self.lbl_unit_frames, 2, 2, Qt.AlignVCenter)
 
         self.lbl_hint_frames = QLabel()
         self.lbl_hint_frames.setStyleSheet("color: #94A3B8; font-size: 12px;")
-        row3.addWidget(self.lbl_hint_frames)
+        grid.addWidget(self.lbl_hint_frames, 2, 3, Qt.AlignVCenter)
 
-        row3.addStretch()
-        mode_layout.addLayout(row3)
-
-        # Mod 4: Tüm Kareleri Al
-        row4 = QHBoxLayout()
+        # Satır 3: Tüm Kareleri Al
         self.radio_every = QRadioButton()
         self.btn_group.addButton(self.radio_every)
-        row4.addWidget(self.radio_every)
-        row4.addStretch()
-        mode_layout.addLayout(row4)
+        grid.addWidget(self.radio_every, 3, 0, 1, 4, Qt.AlignVCenter)
 
+        grid.setColumnStretch(4, 1)
         main_layout.addWidget(self.mode_group)
 
         # 4. Format ve Kalite Ayarları
         self.fmt_group = QGroupBox()
         fmt_layout = QHBoxLayout(self.fmt_group)
-        fmt_layout.setContentsMargins(16, 14, 16, 14)
+        fmt_layout.setContentsMargins(14, 10, 14, 10)
 
         self.lbl_format = QLabel()
         fmt_layout.addWidget(self.lbl_format)
         self.combo_fmt = QComboBox()
         fmt_layout.addWidget(self.combo_fmt)
 
-        fmt_layout.addSpacing(25)
+        fmt_layout.addSpacing(20)
         self.lbl_quality = QLabel()
         fmt_layout.addWidget(self.lbl_quality)
         self.spin_qual = QSpinBox()
         self.spin_qual.setRange(10, 100)
         self.spin_qual.setValue(95)
         self.spin_qual.setAlignment(Qt.AlignCenter)
+        self.spin_qual.setFixedWidth(75)
         fmt_layout.addWidget(self.spin_qual)
         fmt_layout.addStretch()
 
@@ -523,7 +517,9 @@ class MainWindow(QMainWindow):
         actions_layout.addWidget(self.open_folder_btn)
 
         main_layout.addLayout(actions_layout)
-        self.setCentralWidget(central_widget)
+
+        scroll_area.setWidget(container)
+        self.setCentralWidget(scroll_area)
 
     def on_lang_changed(self, index):
         code = self.lang_combo.currentData()
