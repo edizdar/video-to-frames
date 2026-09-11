@@ -1,0 +1,167 @@
+﻿<!-- ============================================================
+     eroldizdar.tr / Video to Frames - Sekmeli Tanıtım ve İndirme Sayfası
+     Bu kodu Blogger, WordPress veya sitenizin HTML düzenleyicisine yapıştırabilirsiniz.
+     ============================================================ -->
+
+<div class="v2f-container" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #2d3748; max-width: 900px; margin: 0 auto;">
+
+  <!-- Üst Tanıtım Başlığı -->
+  <div style="text-align: center; margin-bottom: 25px;">
+    <h1 style="color: #1a202c; font-size: 28px; margin-bottom: 8px;">🎬 Video to Frames / Video Kare Yakalayıcı</h1>
+    <p style="color: #718096; font-size: 16px; margin: 0;">Ücretsiz, Kayıpsız ve Kurulum Gerektirmeyen (Portable) Video Kare Çıkarıcı</p>
+  </div>
+
+  <!-- [ADSENSE ALANI 1: ÜST REKLAM] -->
+  <div style="margin: 20px 0; text-align: center; min-height: 90px; background: #f7fafc; border: 1px dashed #cbd5e0; display: flex; align-items: center; justify-content: center; border-radius: 8px;">
+    <!-- Buraya AdSense Kodunuzu Yapıştırın (Örn: Responsive Display Ad) -->
+    <span style="color: #a0aec0; font-size: 12px;">[AdSense Reklam Alanı 1]</span>
+  </div>
+
+  <!-- Sekme Butonları (Tabs Navigation) -->
+  <div style="display: flex; gap: 10px; border-bottom: 2px solid #e2e8f0; margin-bottom: 25px;">
+    <button id="btn-tr" onclick="openTab('tab-tr', 'btn-tr')" style="background: #2b6cb0; color: #fff; border: none; padding: 12px 24px; font-size: 16px; font-weight: bold; border-radius: 8px 8px 0 0; cursor: pointer; transition: all 0.3s;">
+      🇹🇷 Türkçe Tanıtım
+    </button>
+    <button id="btn-en" onclick="openTab('tab-en', 'btn-en')" style="background: #edf2f7; color: #4a5568; border: none; padding: 12px 24px; font-size: 16px; font-weight: bold; border-radius: 8px 8px 0 0; cursor: pointer; transition: all 0.3s;">
+      🇬🇧 English Guide
+    </button>
+  </div>
+
+  <!-- ==================== SEKME 1: TÜRKÇE ==================== -->
+  <div id="tab-tr" class="v2f-tab-content" style="display: block;">
+    <p style="font-size: 16px;">
+      Bir videonun içinden belirli anları yüksek kalitede fotoğraf olarak kaydetmek istediğimizde ekran görüntüsü (screenshot) almak hem çok vakit kaybettirir hem de piksellerin bozulmasına yol açar. 
+      Özellikle dakikalarca süren bir videodan onlarca veya yüzlerce kare almanız gerektiğinde bunu manuel yapmak neredeyse imkansızdır.
+    </p>
+    <p style="font-size: 16px;">
+      Bu sorunu çözmek için geliştirdiğim <strong>Video Kare Yakalayıcı (Video to Frames)</strong> programı; videolarınızı dilediğiniz zaman aralığıyla, eşit parçalara bölerek veya tüm kareleri tek tek olacak şekilde <strong>sıfır kalite kaybıyla</strong> fotoğraflara dönüştürür.
+    </p>
+
+    <h2 style="color: #2b6cb0; font-size: 22px; margin-top: 30px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;">
+      ⭐ Öne Çıkan Özellikler
+    </h2>
+    <ul style="padding-left: 20px; font-size: 15px; color: #4a5568;">
+      <li style="margin-bottom: 10px;"><strong>🚀 Kurulum Gerektirmez (Portable):</strong> Python, FFmpeg veya herhangi bir codec kurmanıza gerek yoktur. Tek bir <code>.exe</code> dosyasına çift tıklayarak doğrudan çalıştırabilirsiniz.</li>
+      <li style="margin-bottom: 10px;"><strong>💎 Sıfır Kalite Kaybı:</strong> %100 kayıpsız <strong>PNG</strong> veya %95 yüksek kalitede hafif <strong>JPG</strong> formatı seçeneği. 4K videolarınız 4K pikselleriyle kaydedilir.</li>
+      <li style="margin-bottom: 10px;"><strong>🎯 4 Farklı Çıkarma Modu:</strong>
+        <ul>
+          <li><em>Saniye Aralığıyla:</em> Her 1 saniyede (veya 0.5 sn, 2 sn) 1 fotoğraf yakalama.</li>
+          <li><em>Toplam Fotoğraf Sayısı:</em> Tüm videoya eşit aralıklarla yayılan örneğin 50 adet fotoğraf.</li>
+          <li><em>Kare Sayısı Aralığıyla:</em> Her 30 karede bir çıkarma.</li>
+          <li><em>Tüm Kareler (Full FPS):</em> Videodaki istisnasız tüm tekil kareleri alma.</li>
+        </ul>
+      </li>
+      <li style="margin-bottom: 10px;"><strong>⏱️ Akıllı Zaman Damgalı İsimlendirme:</strong> Çıkarılan her resim <code>kare_00001_01m24s_350ms.jpg</code> gibi tam dakika, saniye ve milisaniye bilgisiyle adlandırılır.</li>
+      <li style="margin-bottom: 10px;"><strong>🖱️ Sürükle - Bırak Kolaylığı:</strong> Videoyu farenizle tutup doğrudan program penceresine bırakmanız yeterlidir.</li>
+    </ul>
+
+    <!-- [ADSENSE ALANI 2: İÇERİK ORTASI REKLAM] -->
+    <div style="margin: 25px 0; text-align: center; min-height: 90px; background: #f7fafc; border: 1px dashed #cbd5e0; display: flex; align-items: center; justify-content: center; border-radius: 8px;">
+      <!-- Buraya AdSense Kodunuzu Yapıştırın -->
+      <span style="color: #a0aec0; font-size: 12px;">[AdSense Reklam Alanı 2]</span>
+    </div>
+
+    <h2 style="color: #2b6cb0; font-size: 22px; margin-top: 30px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;">
+      💻 Nasıl Kullanılır? (3 Adımda)
+    </h2>
+    <ol style="padding-left: 20px; font-size: 15px; color: #4a5568;">
+      <li style="margin-bottom: 8px;">Programı açın ve videonuzu pencereye sürükleyin (veya "Video Seç" butonuna basın).</li>
+      <li style="margin-bottom: 8px;">Kare alma modunuzu (örn: her 1 saniyede 1) ve formatı (JPG/PNG) seçin.</li>
+      <li style="margin-bottom: 8px;"><strong>"Fotoğrafları Çıkarmaya Başla"</strong> butonuna basın. İşlem bitince klasör otomatik açılır!</li>
+    </ol>
+  </div>
+
+  <!-- ==================== SEKME 2: ENGLISH ==================== -->
+  <div id="tab-en" class="v2f-tab-content" style="display: none;">
+    <p style="font-size: 16px;">
+      Extracting crisp, high-resolution still images from video files has always been a frustrating task. Manually pausing, taking screenshots, and cropping images takes forever and results in degraded picture quality.
+    </p>
+    <p style="font-size: 16px;">
+      <strong>Video to Frames</strong> is a clean, modern, and open-source Windows application built to automate this entire process. It converts any video (MP4, MKV, AVI, MOV, WEBM) into high-quality images with <strong>zero quality loss</strong>.
+    </p>
+
+    <h2 style="color: #2b6cb0; font-size: 22px; margin-top: 30px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;">
+      ⭐ Key Features
+    </h2>
+    <ul style="padding-left: 20px; font-size: 15px; color: #4a5568;">
+      <li style="margin-bottom: 10px;"><strong>🚀 100% Portable (No Setup):</strong> Standalone <code>.exe</code> file. No Python, FFmpeg, or extra codecs required on your computer.</li>
+      <li style="margin-bottom: 10px;"><strong>💎 Zero Quality Loss:</strong> Save in lossless <strong>PNG</strong> or high-quality <strong>JPG</strong> (95% default). Original 1080p, 2K, and 4K resolutions are preserved.</li>
+      <li style="margin-bottom: 10px;"><strong>🎯 4 Extraction Modes:</strong>
+        <ul>
+          <li><em>Time Interval:</em> Capture a photo every X seconds (e.g., every 1.0s or 0.5s).</li>
+          <li><em>Total Even Count:</em> Evenly spaced across the duration (e.g., exactly 50 photos).</li>
+          <li><em>Frame Step:</em> Extract every Nth frame (e.g., every 30th frame).</li>
+          <li><em>Full FPS:</em> Extract every single individual frame.</li>
+        </ul>
+      </li>
+      <li style="margin-bottom: 10px;"><strong>⏱️ Timestamped Filenames:</strong> Files are neatly labeled with precise time (e.g., <code>frame_00001_01m24s_350ms.jpg</code>).</li>
+      <li style="margin-bottom: 10px;"><strong>🖱️ Drag & Drop:</strong> Simply drag any video directly from Explorer into the app.</li>
+    </ul>
+
+    <!-- [ADSENSE ALANI 2: ENGLISH MID-CONTENT AD] -->
+    <div style="margin: 25px 0; text-align: center; min-height: 90px; background: #f7fafc; border: 1px dashed #cbd5e0; display: flex; align-items: center; justify-content: center; border-radius: 8px;">
+      <!-- Buraya AdSense Kodunuzu Yapıştırın -->
+      <span style="color: #a0aec0; font-size: 12px;">[AdSense Reklam Alanı 2]</span>
+    </div>
+
+    <h2 style="color: #2b6cb0; font-size: 22px; margin-top: 30px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;">
+      💻 How to Use in 3 Steps
+    </h2>
+    <ol style="padding-left: 20px; font-size: 15px; color: #4a5568;">
+      <li style="margin-bottom: 8px;">Launch <code>VideoToFrames.exe</code> and drop your video file into the window.</li>
+      <li style="margin-bottom: 8px;">Pick your preferred extraction mode (e.g., every 1s) and format (JPG / PNG).</li>
+      <li style="margin-bottom: 8px;">Click <strong>"Start Extracting Frames"</strong>. Once finished, click "Open Folder" to view your photos!</li>
+    </ol>
+  </div>
+
+  <!-- [ADSENSE ALANI 3: İNDİRME ÖNCESİ DİKDÖRTGEN REKLAM] -->
+  <div style="margin: 30px 0 15px 0; text-align: center; min-height: 250px; background: #f7fafc; border: 1px dashed #cbd5e0; display: flex; align-items: center; justify-content: center; border-radius: 8px;">
+    <!-- Buraya AdSense 300x250 veya Responsive Reklam Kodunuzu Yapıştırın -->
+    <span style="color: #a0aec0; font-size: 12px;">[AdSense Reklam Alanı 3 - İndirme Öncesi]</span>
+  </div>
+
+  <!-- ==================== ORTAK İNDİRME ALANI ==================== -->
+  <div style="background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%); padding: 30px; border-radius: 12px; text-align: center; margin: 30px 0; color: #ffffff; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
+    <h3 style="color: #63b3ed; font-size: 22px; margin-top: 0; margin-bottom: 8px;">📥 Ücretsiz İndir / Free Download (Portable)</h3>
+    <p style="color: #cbd5e0; font-size: 14px; margin-bottom: 25px;">Windows 10 & 11 (64-bit) uyumludur. Kurulum gerektirmez, doğrudan çift tıklayıp açabilirsiniz.</p>
+
+    <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+      <!-- Türkçe Sürüm İndirme Butonu -->
+      <a href="https://github.com/edizdar/video-to-frames/releases/download/v1.0.0/VideoKareYakalayici.exe" 
+         target="_blank" rel="noopener noreferrer"
+         style="background: #319795; color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 8px; font-weight: bold; font-size: 15px; display: inline-flex; align-items: center; gap: 8px; transition: background 0.2s;">
+        🇹🇷 Türkçe Sürümü İndir (.exe)
+      </a>
+
+      <!-- İngilizce Sürüm İndirme Butonu -->
+      <a href="https://github.com/edizdar/video-to-frames/releases/download/v1.0.0/VideoToFrames.exe" 
+         target="_blank" rel="noopener noreferrer"
+         style="background: #3182ce; color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 8px; font-weight: bold; font-size: 15px; display: inline-flex; align-items: center; gap: 8px; transition: background 0.2s;">
+        🇬🇧 Download English Edition (.exe)
+      </a>
+    </div>
+
+    <div style="margin-top: 20px; font-size: 13px; color: #a0aec0;">
+      Açık Kaynak Kodlar: <a href="https://github.com/edizdar/video-to-frames" target="_blank" style="color: #63b3ed; text-decoration: underline;">GitHub Deposu</a> (MIT Lisansı)
+    </div>
+  </div>
+
+</div>
+
+<!-- Sekme Değiştirme JavaScript Kodu -->
+<script>
+function openTab(tabId, btnId) {
+  var contents = document.getElementsByClassName("v2f-tab-content");
+  for (var i = 0; i < contents.length; i++) {
+    contents[i].style.display = "none";
+  }
+  document.getElementById("btn-tr").style.background = "#edf2f7";
+  document.getElementById("btn-tr").style.color = "#4a5568";
+  document.getElementById("btn-en").style.background = "#edf2f7";
+  document.getElementById("btn-en").style.color = "#4a5568";
+
+  document.getElementById(tabId).style.display = "block";
+  document.getElementById(btnId).style.background = "#2b6cb0";
+  document.getElementById(btnId).style.color = "#ffffff";
+}
+</script>
