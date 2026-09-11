@@ -8,13 +8,13 @@ from PySide6.QtWidgets import (
     QComboBox, QMessageBox, QFrame
 )
 from PySide6.QtCore import Qt, QThread, Signal
-from PySide6.QtGui import QDragEnterEvent, QDropEvent
+from PySide6.QtGui import QIcon, QPixmap, QDragEnterEvent, QDropEvent
 
 from extractor import get_video_info, extract_frames
 
 TRANSLATIONS = {
     "tr": {
-        "title": "Video Kare Yakalayıcı - Video to Photos",
+        "title": "Video Kare Yakalayıcı - Video to Frames",
         "drop_hint": "🎬 Videoyu buraya sürükleyip bırakın\nveya aşağıdaki butondan seçin",
         "browse_video": "📁 Video Dosyası Seç",
         "video_selected": "Seçilen Video: Henüz video seçilmedi",
@@ -23,18 +23,21 @@ TRANSLATIONS = {
         "browse_output": "Gözat...",
         "mode_group": "Kare Alma Modu",
         "mode_sec": "Belirli saniye aralığıyla al:",
-        "sec_suffix": " saniye (Varsayılan: 1 sn)",
-        "mode_total": "Tüm videodan eşit aralıklarla toplam:",
-        "total_suffix": " adet fotoğraf al",
-        "mode_frames": "Her:",
-        "frames_suffix": " karede bir al",
+        "unit_sec": "saniye",
+        "hint_sec": "(Önerilen: 1.0 sn)",
+        "mode_total": "Tüm videodan eşit aralıklarla:",
+        "unit_total": "adet fotoğraf",
+        "hint_total": "(Tüm videoya yayılır)",
+        "mode_frames": "Belirli kare adımıyla:",
+        "unit_frames": "karede bir",
+        "hint_frames": "(Örn: Her 30 kare)",
         "mode_every": "Tüm kareleri al (Full FPS - Her kare tek tek)",
         "format_group": "Fotoğraf Formatı ve Kalite",
         "format_label": "Format:",
-        "format_jpg": "JPG (Küçük boyut, yüksek hız)",
-        "format_png": "PNG (Kayıpsız / Yüksek kalite)",
+        "format_jpg": "JPG (Hızlı ve hafif)",
+        "format_png": "PNG (Kayıpsız / Orijinal piksel)",
         "quality_label": "JPG Kalitesi (%):",
-        "status_ready": "Hazır",
+        "status_ready": "Hazır. Videonuzu seçip başlayabilirsiniz.",
         "btn_start": "🚀 Fotoğrafları Çıkarmaya Başla",
         "btn_cancel": "⏹️ Durdur",
         "btn_open": "📂 Klasörü Aç",
@@ -64,18 +67,21 @@ TRANSLATIONS = {
         "browse_output": "Browse...",
         "mode_group": "Frame Extraction Mode",
         "mode_sec": "Extract every specified seconds:",
-        "sec_suffix": " seconds (Default: 1s)",
-        "mode_total": "Evenly spread across video, total:",
-        "total_suffix": " photos",
-        "mode_frames": "Every:",
-        "frames_suffix": " frames",
+        "unit_sec": "seconds",
+        "hint_sec": "(Recommended: 1.0s)",
+        "mode_total": "Evenly spread across video:",
+        "unit_total": "total photos",
+        "hint_total": "(Spread start to end)",
+        "mode_frames": "Extract every frame step:",
+        "unit_frames": "frames",
+        "hint_frames": "(e.g. every 30th frame)",
         "mode_every": "Extract every frame (Full FPS - All frames)",
         "format_group": "Photo Format & Quality",
         "format_label": "Format:",
-        "format_jpg": "JPG (Compact size, high speed)",
-        "format_png": "PNG (Lossless / High quality)",
+        "format_jpg": "JPG (Fast & compact size)",
+        "format_png": "PNG (100% Lossless quality)",
         "quality_label": "JPG Quality (%):",
-        "status_ready": "Ready",
+        "status_ready": "Ready. Load a video to start.",
         "btn_start": "🚀 Start Extracting Frames",
         "btn_cancel": "⏹️ Stop",
         "btn_open": "📂 Open Folder",
@@ -102,14 +108,12 @@ class ExtractionWorker(QThread):
     finished_signal = Signal(int)
     error_signal = Signal(str)
 
-    def __init__(self, video_path, output_dir, mode, interval, start_sec, end_sec, img_format, quality):
+    def __init__(self, video_path, output_dir, mode, interval, img_format, quality):
         super().__init__()
         self.video_path = video_path
         self.output_dir = output_dir
         self.mode = mode
         self.interval = interval
-        self.start_sec = start_sec
-        self.end_sec = end_sec
         self.img_format = img_format
         self.quality = quality
         self.is_cancelled = False
@@ -127,8 +131,6 @@ class ExtractionWorker(QThread):
                 output_dir=self.output_dir,
                 mode=self.mode,
                 interval_value=self.interval,
-                start_sec=self.start_sec,
-                end_sec=self.end_sec,
                 image_format=self.img_format,
                 quality=self.quality,
                 progress_callback=callback
@@ -144,14 +146,20 @@ class MainWindow(QMainWindow):
     def __init__(self, default_lang="tr"):
         super().__init__()
         self.current_lang = default_lang
-        self.setMinimumSize(740, 700)
+        self.setMinimumSize(780, 720)
         self.setAcceptDrops(True)
         self.video_path = ""
         self.video_info = None
         self.worker = None
 
+        # Set Window Icon
+        base_dir = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+        icon_path = os.path.join(base_dir, "app_icon.ico")
+        if os.path.exists(icon_path):
+            self.setWindowIcon(QIcon(icon_path))
+
         self.apply_stylesheet()
-        self.init_ui()
+        self.init_ui(base_dir)
         self.update_language(self.current_lang)
 
     def t(self, key):
@@ -160,145 +168,191 @@ class MainWindow(QMainWindow):
     def apply_stylesheet(self):
         self.setStyleSheet("""
             QMainWindow {
-                background-color: #121824;
-                color: #E2E8F0;
+                background-color: #0F172A;
+                color: #F1F5F9;
             }
             QWidget {
-                color: #E2E8F0;
-                font-family: 'Segoe UI', sans-serif;
+                color: #F1F5F9;
+                font-family: 'Segoe UI', Tahoma, sans-serif;
                 font-size: 13px;
             }
             QGroupBox {
-                border: 1px solid #2D3748;
+                border: 1px solid #334155;
                 border-radius: 8px;
                 margin-top: 14px;
                 padding-top: 14px;
-                background-color: #1A202C;
+                background-color: #1E293B;
                 font-weight: bold;
             }
             QGroupBox::title {
                 subcontrol-origin: margin;
-                left: 12px;
-                padding: 0 5px;
-                color: #63B3ED;
+                left: 14px;
+                padding: 0 6px;
+                color: #38BDF8;
+                font-size: 14px;
             }
-            QLineEdit, QSpinBox, QDoubleSpinBox, QComboBox {
-                background-color: #2D3748;
-                border: 1px solid #4A5568;
+            QLineEdit {
+                background-color: #0F172A;
+                border: 1px solid #475569;
                 border-radius: 6px;
-                padding: 6px 10px;
-                color: #FFFFFF;
+                padding: 6px 12px;
+                color: #F8FAFC;
+                min-height: 26px;
+            }
+            QSpinBox, QDoubleSpinBox {
+                background-color: #0F172A;
+                border: 1px solid #475569;
+                border-radius: 6px;
+                padding: 4px 8px;
+                color: #38BDF8;
+                font-weight: bold;
+                font-size: 14px;
+                min-height: 30px;
+                min-width: 90px;
+            }
+            QComboBox {
+                background-color: #0F172A;
+                border: 1px solid #475569;
+                border-radius: 6px;
+                padding: 6px 12px;
+                color: #F8FAFC;
+                min-height: 26px;
             }
             QLineEdit:focus, QSpinBox:focus, QDoubleSpinBox:focus, QComboBox:focus {
-                border: 1px solid #3182CE;
+                border: 1px solid #38BDF8;
             }
             QPushButton {
-                background-color: #2B6CB0;
+                background-color: #2563EB;
                 color: #FFFFFF;
                 border: none;
                 border-radius: 6px;
-                padding: 8px 16px;
+                padding: 8px 18px;
                 font-weight: 600;
+                min-height: 24px;
             }
             QPushButton:hover {
-                background-color: #3182CE;
+                background-color: #3B82F6;
             }
             QPushButton:pressed {
-                background-color: #2C5282;
+                background-color: #1D4ED8;
             }
             QPushButton:disabled {
-                background-color: #4A5568;
-                color: #A0AEC0;
+                background-color: #475569;
+                color: #94A3B8;
             }
             QPushButton#action_btn {
-                background-color: #319795;
-                font-size: 14px;
-                padding: 10px 20px;
+                background-color: #0D9488;
+                font-size: 15px;
+                padding: 12px 24px;
+                font-weight: bold;
             }
             QPushButton#action_btn:hover {
-                background-color: #38B2AC;
+                background-color: #14B8A6;
             }
             QPushButton#cancel_btn {
-                background-color: #E53E3E;
+                background-color: #DC2626;
                 font-size: 14px;
                 padding: 10px 20px;
             }
             QPushButton#cancel_btn:hover {
-                background-color: #F56565;
+                background-color: #EF4444;
             }
             QProgressBar {
-                border: 1px solid #2D3748;
+                border: 1px solid #334155;
                 border-radius: 6px;
-                background-color: #1A202C;
+                background-color: #0F172A;
                 text-align: center;
                 color: #FFFFFF;
                 font-weight: bold;
-                height: 22px;
+                height: 24px;
             }
             QProgressBar::chunk {
-                background-color: #3182CE;
+                background-color: #0284C7;
                 border-radius: 5px;
             }
             QRadioButton {
-                spacing: 8px;
+                spacing: 10px;
+                font-weight: 500;
             }
             QRadioButton::indicator {
-                width: 16px;
-                height: 16px;
+                width: 18px;
+                height: 18px;
             }
             QRadioButton::indicator:checked {
-                background-color: #3182CE;
-                border: 2px solid #FFFFFF;
-                border-radius: 8px;
+                background-color: #38BDF8;
+                border: 3px solid #0F172A;
+                outline: 2px solid #38BDF8;
+                border-radius: 9px;
             }
             QRadioButton::indicator:unchecked {
-                background-color: #2D3748;
-                border: 2px solid #718096;
-                border-radius: 8px;
+                background-color: #1E293B;
+                border: 2px solid #64748B;
+                border-radius: 9px;
             }
             QFrame#drop_area {
-                border: 2px dashed #4A5568;
-                border-radius: 10px;
-                background-color: #171F2E;
+                border: 2px dashed #475569;
+                border-radius: 12px;
+                background-color: #1E293B;
             }
             QFrame#drop_area:hover {
-                border-color: #63B3ED;
-                background-color: #1C2638;
+                border-color: #38BDF8;
+                background-color: #24344D;
             }
         """)
 
-    def init_ui(self):
+    def init_ui(self, base_dir):
         central_widget = QWidget()
         main_layout = QVBoxLayout(central_widget)
-        main_layout.setContentsMargins(20, 16, 20, 20)
-        main_layout.setSpacing(12)
+        main_layout.setContentsMargins(22, 16, 22, 20)
+        main_layout.setSpacing(14)
 
-        # Header Bar: Dil Değiştirici & Geliştirici Linki
-        top_bar = QHBoxLayout()
-        self.dev_label = QLabel("<a href='https://www.eroldizdar.tr/' style='color: #63B3ED; text-decoration: none;'>🌐 eroldizdar.tr</a>")
-        self.dev_label.setOpenExternalLinks(True)
-        top_bar.addWidget(self.dev_label)
-        top_bar.addStretch()
+        # Top Header: Logo + App Title + Website Link + Language
+        header_layout = QHBoxLayout()
+        header_layout.setSpacing(12)
 
+        # Logo Icon
+        logo_path = os.path.join(base_dir, "logo.png")
+        self.logo_label = QLabel()
+        if os.path.exists(logo_path):
+            pixmap = QPixmap(logo_path).scaled(42, 42, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+            self.logo_label.setPixmap(pixmap)
+        header_layout.addWidget(self.logo_label)
+
+        # Title and Website
+        title_box = QVBoxLayout()
+        title_box.setSpacing(2)
+        self.header_title = QLabel("Video to Frames / Video Kare Yakalayıcı")
+        self.header_title.setStyleSheet("font-size: 16px; font-weight: bold; color: #FFFFFF;")
+        title_box.addWidget(self.header_title)
+
+        self.dev_link = QLabel("<a href='https://www.eroldizdar.tr/p/video-to-frames.html' style='color: #38BDF8; text-decoration: none;'>🌐 eroldizdar.tr</a>")
+        self.dev_link.setOpenExternalLinks(True)
+        title_box.addWidget(self.dev_link)
+        header_layout.addLayout(title_box)
+
+        header_layout.addStretch()
+
+        # Language dropdown
         self.lang_combo = QComboBox()
         self.lang_combo.addItem("🇹🇷 Türkçe", "tr")
         self.lang_combo.addItem("🇬🇧 English", "en")
         if self.current_lang == "en":
             self.lang_combo.setCurrentIndex(1)
         self.lang_combo.currentIndexChanged.connect(self.on_lang_changed)
-        top_bar.addWidget(self.lang_combo)
-        main_layout.addLayout(top_bar)
+        header_layout.addWidget(self.lang_combo)
 
-        # 1. Video Seçim Alanı
+        main_layout.addLayout(header_layout)
+
+        # 1. Video Seçim Alanı (Drag & Drop)
         self.drop_area = QFrame()
         self.drop_area.setObjectName("drop_area")
         drop_layout = QVBoxLayout(self.drop_area)
-        drop_layout.setContentsMargins(15, 15, 15, 15)
+        drop_layout.setContentsMargins(18, 16, 18, 16)
         drop_layout.setAlignment(Qt.AlignCenter)
 
         self.drop_label = QLabel()
         self.drop_label.setAlignment(Qt.AlignCenter)
-        self.drop_label.setStyleSheet("font-size: 14px; font-weight: bold; color: #CBD5E0;")
+        self.drop_label.setStyleSheet("font-size: 14px; font-weight: bold; color: #E2E8F0;")
         drop_layout.addWidget(self.drop_label)
 
         btn_hlayout = QHBoxLayout()
@@ -312,7 +366,7 @@ class MainWindow(QMainWindow):
 
         # Video Bilgi Etiketi
         self.video_info_label = QLabel()
-        self.video_info_label.setStyleSheet("color: #A0AEC0; font-size: 12px; margin-left: 2px;")
+        self.video_info_label.setStyleSheet("color: #94A3B8; font-size: 12px; margin-left: 2px;")
         main_layout.addWidget(self.video_info_label)
 
         # 2. Çıktı Klasörü Grubu
@@ -326,14 +380,17 @@ class MainWindow(QMainWindow):
         output_layout.addWidget(self.browse_output_btn)
         main_layout.addWidget(self.output_group)
 
-        # 3. Kare Alma Modu Grubu
+        # 3. Kare Alma Modu Grubu (YAZILAR ASLA SIĞMAMA SORUNU YAŞAMAZ)
         self.mode_group = QGroupBox()
         mode_layout = QVBoxLayout(self.mode_group)
-        mode_layout.setSpacing(10)
+        mode_layout.setSpacing(12)
+        mode_layout.setContentsMargins(16, 16, 16, 16)
 
         self.btn_group = QButtonGroup(self)
 
+        # Mod 1: Saniye Aralığı
         row1 = QHBoxLayout()
+        row1.setSpacing(8)
         self.radio_sec = QRadioButton()
         self.radio_sec.setChecked(True)
         self.btn_group.addButton(self.radio_sec)
@@ -343,11 +400,23 @@ class MainWindow(QMainWindow):
         self.spin_sec.setRange(0.05, 3600.0)
         self.spin_sec.setSingleStep(0.5)
         self.spin_sec.setValue(1.0)
+        self.spin_sec.setAlignment(Qt.AlignCenter)
         row1.addWidget(self.spin_sec)
+
+        self.lbl_unit_sec = QLabel()
+        self.lbl_unit_sec.setStyleSheet("font-weight: 500; color: #F1F5F9;")
+        row1.addWidget(self.lbl_unit_sec)
+
+        self.lbl_hint_sec = QLabel()
+        self.lbl_hint_sec.setStyleSheet("color: #94A3B8; font-size: 12px;")
+        row1.addWidget(self.lbl_hint_sec)
+
         row1.addStretch()
         mode_layout.addLayout(row1)
 
+        # Mod 2: Toplam Kare Sayısı
         row2 = QHBoxLayout()
+        row2.setSpacing(8)
         self.radio_total = QRadioButton()
         self.btn_group.addButton(self.radio_total)
         row2.addWidget(self.radio_total)
@@ -355,11 +424,23 @@ class MainWindow(QMainWindow):
         self.spin_total = QSpinBox()
         self.spin_total.setRange(1, 100000)
         self.spin_total.setValue(50)
+        self.spin_total.setAlignment(Qt.AlignCenter)
         row2.addWidget(self.spin_total)
+
+        self.lbl_unit_total = QLabel()
+        self.lbl_unit_total.setStyleSheet("font-weight: 500; color: #F1F5F9;")
+        row2.addWidget(self.lbl_unit_total)
+
+        self.lbl_hint_total = QLabel()
+        self.lbl_hint_total.setStyleSheet("color: #94A3B8; font-size: 12px;")
+        row2.addWidget(self.lbl_hint_total)
+
         row2.addStretch()
         mode_layout.addLayout(row2)
 
+        # Mod 3: Her X Karede Bir
         row3 = QHBoxLayout()
+        row3.setSpacing(8)
         self.radio_interval_frames = QRadioButton()
         self.btn_group.addButton(self.radio_interval_frames)
         row3.addWidget(self.radio_interval_frames)
@@ -367,10 +448,21 @@ class MainWindow(QMainWindow):
         self.spin_interval_frames = QSpinBox()
         self.spin_interval_frames.setRange(1, 5000)
         self.spin_interval_frames.setValue(30)
+        self.spin_interval_frames.setAlignment(Qt.AlignCenter)
         row3.addWidget(self.spin_interval_frames)
+
+        self.lbl_unit_frames = QLabel()
+        self.lbl_unit_frames.setStyleSheet("font-weight: 500; color: #F1F5F9;")
+        row3.addWidget(self.lbl_unit_frames)
+
+        self.lbl_hint_frames = QLabel()
+        self.lbl_hint_frames.setStyleSheet("color: #94A3B8; font-size: 12px;")
+        row3.addWidget(self.lbl_hint_frames)
+
         row3.addStretch()
         mode_layout.addLayout(row3)
 
+        # Mod 4: Tüm Kareleri Al
         row4 = QHBoxLayout()
         self.radio_every = QRadioButton()
         self.btn_group.addButton(self.radio_every)
@@ -383,18 +475,20 @@ class MainWindow(QMainWindow):
         # 4. Format ve Kalite Ayarları
         self.fmt_group = QGroupBox()
         fmt_layout = QHBoxLayout(self.fmt_group)
+        fmt_layout.setContentsMargins(16, 14, 16, 14)
 
         self.lbl_format = QLabel()
         fmt_layout.addWidget(self.lbl_format)
         self.combo_fmt = QComboBox()
         fmt_layout.addWidget(self.combo_fmt)
 
-        fmt_layout.addSpacing(20)
+        fmt_layout.addSpacing(25)
         self.lbl_quality = QLabel()
         fmt_layout.addWidget(self.lbl_quality)
         self.spin_qual = QSpinBox()
         self.spin_qual.setRange(10, 100)
         self.spin_qual.setValue(95)
+        self.spin_qual.setAlignment(Qt.AlignCenter)
         fmt_layout.addWidget(self.spin_qual)
         fmt_layout.addStretch()
 
@@ -407,7 +501,7 @@ class MainWindow(QMainWindow):
         main_layout.addWidget(self.progress_bar)
 
         self.status_label = QLabel()
-        self.status_label.setStyleSheet("color: #A0AEC0; font-style: italic;")
+        self.status_label.setStyleSheet("color: #94A3B8; font-style: italic;")
         main_layout.addWidget(self.status_label)
 
         # 6. Kontrol Butonları
@@ -451,13 +545,21 @@ class MainWindow(QMainWindow):
         self.output_edit.setPlaceholderText(self.t("output_placeholder"))
         self.browse_output_btn.setText(self.t("browse_output"))
         self.mode_group.setTitle(self.t("mode_group"))
+
         self.radio_sec.setText(self.t("mode_sec"))
-        self.spin_sec.setSuffix(self.t("sec_suffix"))
+        self.lbl_unit_sec.setText(self.t("unit_sec"))
+        self.lbl_hint_sec.setText(self.t("hint_sec"))
+
         self.radio_total.setText(self.t("mode_total"))
-        self.spin_total.setSuffix(self.t("total_suffix"))
+        self.lbl_unit_total.setText(self.t("unit_total"))
+        self.lbl_hint_total.setText(self.t("hint_total"))
+
         self.radio_interval_frames.setText(self.t("mode_frames"))
-        self.spin_interval_frames.setSuffix(self.t("frames_suffix"))
+        self.lbl_unit_frames.setText(self.t("unit_frames"))
+        self.lbl_hint_frames.setText(self.t("hint_frames"))
+
         self.radio_every.setText(self.t("mode_every"))
+
         self.fmt_group.setTitle(self.t("format_group"))
         self.lbl_format.setText(self.t("format_label"))
 
@@ -569,8 +671,6 @@ class MainWindow(QMainWindow):
             output_dir=out_dir,
             mode=mode,
             interval=interval,
-            start_sec=0.0,
-            end_sec=None,
             img_format=fmt,
             quality=qual
         )
@@ -626,7 +726,6 @@ def main():
     parser.add_argument("--lang", choices=["tr", "en"], default="tr", help="Default language")
     args, unknown = parser.parse_known_args()
 
-    # If filename contains 'en' or 'VideoToFrames', default to English
     prog_name = os.path.basename(sys.argv[0]).lower()
     default_lang = args.lang
     if "en" in prog_name or "videotoframes" in prog_name:
