@@ -1,4 +1,4 @@
-# 🎬 Video Kare Yakalayıcı / Video to Frames
+﻿# 🎬 Video to Frames Pro / Video Kare Yakalayıcı
 
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
@@ -9,52 +9,46 @@
 </p>
 
 <p align="center">
-  <b>Extract high-resolution photos and frames from videos with zero quality loss. Free, open-source, and portable tool.</b><br>
-  <i>Videolardan yüksek çözünürlüklü fotoğraflar ve kareler çıkarmak için geliştirilmiş ücretsiz, açık kaynaklı ve kurulum gerektirmeyen (portable) masaüstü aracı.</i><br>
+  <b>Extract high-resolution photos and frames from videos with zero quality loss. Features multi-video playlist batch processing, smart zoom/crop focus, and precise trimming. Free, open-source, and portable tool.</b><br>
+  <i>Çoklu video oynatma listesi (playlist/batch), akıllı yakınlaştırma (zoom) ve zaman kırpma özellikli ücretsiz, açık kaynaklı ve portable video kare yakalayıcı.</i><br>
   Developed by <a href="https://www.eroldizdar.tr/"><b>Erol Dizdar</b></a>
 </p>
 
 ---
 
-## 🌐 Language / Dil
-The application supports **English (🇬🇧)** and **Turkish (🇹🇷)**. You can switch the language at any time from the top-right corner of the window.
+## 🌐 Official Website & Downloads / Resmi Web Sayfası ve İndirme
 
-- `VideoToFrames.exe` -> Starts in English by default.
-- `VideoKareYakalayici.exe` -> Starts in Turkish by default.
+All downloads, setup guides, and portable packages are available on the official website:
+Tüm indirme seçenekleri, taşınabilir (portable) sürümler ve detaylı rehber resmi web sayfasında yer almaktadır:
+
+👉 **[Download Video to Frames Pro / Programı İndir (eroldizdar.tr)](https://www.eroldizdar.tr/p/video-to-frames.html)**
 
 ---
 
 ## ✨ Features / Özellikler
 
 ### 🇬🇧 English
-- **🚀 No Installation Required (Portable):** Fully standalone single-file `.exe`. No Python or codecs needed.
+- **📋 Playlist & Batch Processing:** Add multiple videos (1, 10, or 100) to the queue and extract frames sequentially with one click.
+- **🔍 Smart Zoom & Focus:** Zoom into details with 1.25x, 1.5x, 2.0x, or 3.0x magnification. Choose focus regions: Center, Top-Left, Top-Right, Bottom-Left, or Bottom-Right with Lanczos-4 high-fidelity scaling.
+- **✂️ Time Trimming:** Specify Start Time and End Time in seconds to extract stills exclusively from your desired segment.
 - **🎯 4 Extraction Modes:**
-  1. **Time Interval:** Capture a frame every $X$ seconds (e.g. every 1s or 0.5s).
-  2. **Total Count:** Evenly distributed across video duration (e.g. exactly 50 frames).
-  3. **Frame Step:** Capture every $N$ frames (e.g. every 30th frame).
-  4. **Full FPS:** Export every single individual frame.
-- **💎 Zero Quality Loss:**
-  - **PNG:** 100% Lossless.
-  - **JPG:** High quality with adjustable compression slider (defaults to 95%).
-  - Maintains native video resolution (1080p, 2K, 4K).
-- **🖱️ Drag & Drop:** Drag any video file directly into the application.
-- **⏱️ Timestamped Filenames:** Each image is named with exact time (e.g., `frame_00001_01m24s_350ms.jpg`).
+  1. *Time Interval:* Extract every X seconds (e.g. every 1s or 0.5s).
+  2. *Total Count:* Evenly spread across duration (e.g. exactly 50 photos).
+  3. *Frame Step:* Capture every N frames (e.g. every 30th frame).
+  4. *Full FPS:* Export every single frame.
+- **💎 Zero Quality Loss:** 100% Lossless PNG or high-quality JPG (95% default). Original 1080p, 2K, 4K, 8K resolutions preserved.
+- **⏱️ Precise Timestamps:** Files named as `frame_00001_01m24s_350ms.jpg`.
+- **🚀 100% Portable:** Single-file `.exe`. No Python or FFmpeg installation required.
+- **🌐 Bilingual UI:** Switch between English (🇬🇧) and Turkish (🇹🇷) with a single click.
 
 ### 🇹🇷 Türkçe
-- **🚀 Kurulum Gerektirmez (Portable):** Bağımsız tek dosya `.exe`. Python veya harici kütüphane gerektirmez.
-- **🎯 4 Farklı Kare Alma Modu:** Saniye aralığı, eşit aralıklı toplam adet, kare sayısı aralığı ve tüm kareler (Full FPS).
-- **💎 Sıfır Kalite Kaybı:** Kayıpsız PNG ve yüksek kaliteli ayarlanabilir JPG (%95). Orijinal çözünürlük korunur.
-- **🖱️ Sürükle ve Bırak Desteği:** Videoyu pencereye bırakmanız yeterli.
+- **📋 Oynatma Listesi ve Toplu İşlem:** Onlarca videoyu listeye ekleyip tek tıkla arka planda sırayla işleme.
+- **🔍 Akıllı Yakınlaştırma (Zoom):** 1.25x, 1.5x, 2.0x (2 Kat) ve 3.0x (3 Kat) zoom seçenekleri. Merkez, Sol Üst, Sağ Üst, Sol Alt, Sağ Alt odak bölgeleri.
+- **✂️ Zaman Kırpma (Trim):** Başlangıç ve bitiş saniyelerini belirleyerek videonun sadece istenen kısmını çıkarma.
+- **🎯 4 Farklı Mod:** Saniye aralığı, toplam adet, kare adımı ve Full FPS (tüm kareler).
+- **💎 Sıfır Kalite Kaybı:** Kayıpsız PNG veya yüksek kaliteli JPG (%95). 4K ve 8K çözünürlük desteği.
 - **⏱️ Zaman Damgalı İsimlendirme:** Dakika, saniye ve milisaniye bazlı dosya adları.
-
----
-
-## 📥 Download / İndirme
-
-All downloads, setup guides, and portable packages are available on the official website:
-Tüm indirme seçenekleri, taşınabilir (portable) sürümler ve rehber resmi web sayfasında yer almaktadır:
-
-👉 **[Download Video to Frames / Programı İndir (eroldizdar.tr)](https://www.eroldizdar.tr/p/video-to-frames.html)**
+- **🚀 Kurulumsuz Portable:** Tek dosya `.exe`, Python veya ek yazılım gerektirmez.
 
 ---
 
@@ -68,11 +62,8 @@ cd video-to-frames
 # Install dependencies
 pip install -r requirements.txt
 
-# Run in English
-python gui.py --lang en
-
-# Run in Turkish
-python gui.py --lang tr
+# Run
+python gui.py
 ```
 
 ### Build Standalone Executables / Yeniden Derleme:
@@ -90,11 +81,6 @@ pyinstaller --onefile --noconsole --name "VideoKareYakalayici" --clean gui.py
 
 * **Author:** Erol Dizdar
 * **Website:** [https://www.eroldizdar.tr/](https://www.eroldizdar.tr/)
-
-If you like this project, please consider giving it a ⭐ on GitHub!
-
----
-
-## 📄 License / Lisans
+* **Project Page:** [https://www.eroldizdar.tr/p/video-to-frames.html](https://www.eroldizdar.tr/p/video-to-frames.html)
 
 Licensed under the [MIT License](LICENSE).

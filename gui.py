@@ -5,7 +5,8 @@ from PySide6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
     QLabel, QPushButton, QFileDialog, QRadioButton, QButtonGroup,
     QDoubleSpinBox, QSpinBox, QProgressBar, QGroupBox, QLineEdit,
-    QComboBox, QMessageBox, QFrame
+    QComboBox, QMessageBox, QFrame, QListWidget, QListWidgetItem,
+    QTabWidget, QSplitter
 )
 from PySide6.QtCore import Qt, QThread, Signal
 from PySide6.QtGui import QDragEnterEvent, QDropEvent
@@ -14,12 +15,13 @@ from extractor import get_video_info, extract_frames
 
 TRANSLATIONS = {
     "tr": {
-        "title": "Video Kare Yakalayıcı - Video to Photos",
-        "drop_hint": "🎬 Videoyu buraya sürükleyip bırakın\nveya aşağıdaki butondan seçin",
-        "browse_video": "📁 Video Dosyası Seç",
-        "video_selected": "Seçilen Video: Henüz video seçilmedi",
+        "title": "Video Kare Yakalayıcı - Video to Frames Pro",
+        "playlist_title": "📋 Video Listesi / Oynatma Listesi",
+        "btn_add_videos": "➕ Video(lar) Ekle",
+        "btn_clear_list": "🗑️ Listeyi Temizle",
+        "drop_hint": "🎬 Videoları buraya sürükleyip bırakın (Çoklu video desteklenir)",
         "output_group": "Kayıt Klasörü",
-        "output_placeholder": "Fotoğrafların kaydedileceği klasör...",
+        "output_placeholder": "Varsayılan: Videonun bulunduğu klasör...",
         "browse_output": "Gözat...",
         "mode_group": "Kare Alma Modu",
         "mode_sec": "Belirli saniye aralığıyla al:",
@@ -28,39 +30,48 @@ TRANSLATIONS = {
         "total_suffix": " adet fotoğraf al",
         "mode_frames": "Her:",
         "frames_suffix": " karede bir al",
-        "mode_every": "Tüm kareleri al (Full FPS - Her kare tek tek)",
+        "mode_every": "Tüm kareleri al (Full FPS - Her tekil kare)",
+        "adv_group": "🔍 Yakınlaştırma (Zoom) & Zaman Kırpma",
+        "zoom_label": "Yakınlaştırma (Zoom):",
+        "zoom_pos_label": "Odak Bölgesi:",
+        "zoom_center": "Merkez (Ortala)",
+        "zoom_top_left": "Sol Üst",
+        "zoom_top_right": "Sağ Üst",
+        "zoom_bottom_left": "Sol Alt",
+        "zoom_bottom_right": "Sağ Alt",
+        "trim_label": "Zaman Aralığı (Saniye):",
+        "trim_start": "Başlangıç:",
+        "trim_end": "Bitiş (0=Sonuna kadar):",
         "format_group": "Fotoğraf Formatı ve Kalite",
         "format_label": "Format:",
         "format_jpg": "JPG (Küçük boyut, yüksek hız)",
         "format_png": "PNG (Kayıpsız / Yüksek kalite)",
         "quality_label": "JPG Kalitesi (%):",
-        "status_ready": "Hazır",
-        "btn_start": "🚀 Fotoğrafları Çıkarmaya Başla",
+        "status_ready": "Hazır. Video ekleyin ve başlatın.",
+        "btn_start": "🚀 Kareleri Çıkarmaya Başla (Tüm Liste)",
         "btn_cancel": "⏹️ Durdur",
         "btn_open": "📂 Klasörü Aç",
-        "dialog_title": "Video Dosyası Seç",
+        "dialog_title": "Video Dosyası / Dosyaları Seç",
         "dialog_filter": "Video Dosyaları (*.mp4 *.mkv *.avi *.mov *.wmv *.flv *.webm);;Tüm Dosyalar (*.*)",
         "dialog_out_title": "Fotoğrafların Kaydedileceği Klasör",
-        "warn_no_video": "Lütfen önce bir video dosyası seçin veya sürükleyin!",
-        "warn_no_dir": "Lütfen bir çıktı klasörü belirleyin!",
-        "status_processing": "Fotoğraflar çıkarılıyor, lütfen bekleyin...",
-        "status_progress": "İşleniyor: {saved} / {total} fotoğraf kaydedildi -> {file}",
-        "status_done": "Tamamlandı! Toplam {total} adet fotoğraf başarıyla kaydedildi.",
+        "warn_no_video": "Lütfen önce listeye en az bir video ekleyin!",
+        "status_processing": "[{cur_idx}/{total_videos}] {fname} işleniyor...",
+        "status_progress": "Video {cur_idx}/{total_videos}: {saved}/{total_expected} kare -> {file}",
+        "status_done": "Tamamlandı! Toplam {v_count} videodan {total_frames} adet fotoğraf başarıyla kaydedildi.",
         "status_error": "Hata oluştu!",
         "status_stopping": "İşlem durduruluyor...",
-        "popup_done_title": "İşlem Tamamlandı",
-        "popup_done_msg": "Toplam {total} adet fotoğraf başarıyla kaydedildi!\n\nKlasörü şimdi açmak ister misiniz?",
-        "popup_err_folder": "Klasör açılamadı: {err}",
-        "video_info_fmt": "Süre: {mins:02d}:{secs:02d} | Çözünürlük: {w}x{h} | FPS: {fps:.2f} | Toplam Kare: {total}",
-        "folder_suffix": "_fotograflar"
+        "popup_done_title": "Tüm İşlem Tamamlandı",
+        "popup_done_msg": "Toplam {v_count} video işlendi ve {total_frames} adet fotoğraf kaydedildi!\n\nKlasörü şimdi açmak ister misiniz?",
+        "popup_err_folder": "Klasör açılamadı: {err}"
     },
     "en": {
-        "title": "Video to Frames - Extract Photos from Video",
-        "drop_hint": "🎬 Drag and drop video here\nor click the button below to browse",
-        "browse_video": "📁 Select Video File",
-        "video_selected": "Selected Video: No video selected yet",
+        "title": "Video to Frames Pro - Batch & Zoom Edition",
+        "playlist_title": "📋 Video Playlist / Batch Queue",
+        "btn_add_videos": "➕ Add Video(s)",
+        "btn_clear_list": "🗑️ Clear List",
+        "drop_hint": "🎬 Drag and drop videos here (Multi-video supported)",
         "output_group": "Output Folder",
-        "output_placeholder": "Folder where photos will be saved...",
+        "output_placeholder": "Default: Video's parent folder...",
         "browse_output": "Browse...",
         "mode_group": "Frame Extraction Mode",
         "mode_sec": "Extract every specified seconds:",
@@ -70,70 +81,106 @@ TRANSLATIONS = {
         "mode_frames": "Every:",
         "frames_suffix": " frames",
         "mode_every": "Extract every frame (Full FPS - All frames)",
+        "adv_group": "🔍 Zoom & Time Trimming",
+        "zoom_label": "Zoom Factor:",
+        "zoom_pos_label": "Focus Region:",
+        "zoom_center": "Center",
+        "zoom_top_left": "Top-Left",
+        "zoom_top_right": "Top-Right",
+        "zoom_bottom_left": "Bottom-Left",
+        "zoom_bottom_right": "Bottom-Right",
+        "trim_label": "Time Range (Seconds):",
+        "trim_start": "Start:",
+        "trim_end": "End (0=Full):",
         "format_group": "Photo Format & Quality",
         "format_label": "Format:",
         "format_jpg": "JPG (Compact size, high speed)",
         "format_png": "PNG (Lossless / High quality)",
         "quality_label": "JPG Quality (%):",
-        "status_ready": "Ready",
-        "btn_start": "🚀 Start Extracting Frames",
+        "status_ready": "Ready. Add videos to playlist and start.",
+        "btn_start": "🚀 Start Extracting (Entire Playlist)",
         "btn_cancel": "⏹️ Stop",
         "btn_open": "📂 Open Folder",
-        "dialog_title": "Select Video File",
+        "dialog_title": "Select Video File(s)",
         "dialog_filter": "Video Files (*.mp4 *.mkv *.avi *.mov *.wmv *.flv *.webm);;All Files (*.*)",
         "dialog_out_title": "Select Output Folder",
-        "warn_no_video": "Please select or drag & drop a video file first!",
-        "warn_no_dir": "Please specify an output folder!",
-        "status_processing": "Extracting frames, please wait...",
-        "status_progress": "Processing: {saved} / {total} photos saved -> {file}",
-        "status_done": "Completed! Successfully saved {total} photos.",
+        "warn_no_video": "Please add at least one video to the playlist!",
+        "status_processing": "[{cur_idx}/{total_videos}] Processing {fname}...",
+        "status_progress": "Video {cur_idx}/{total_videos}: {saved}/{total_expected} frames -> {file}",
+        "status_done": "Completed! Successfully saved {total_frames} photos from {v_count} video(s).",
         "status_error": "An error occurred!",
         "status_stopping": "Stopping extraction...",
-        "popup_done_title": "Extraction Completed",
-        "popup_done_msg": "Successfully saved {total} photos!\n\nWould you like to open the output folder now?",
-        "popup_err_folder": "Could not open folder: {err}",
-        "video_info_fmt": "Duration: {mins:02d}:{secs:02d} | Resolution: {w}x{h} | FPS: {fps:.2f} | Total Frames: {total}",
-        "folder_suffix": "_frames"
+        "popup_done_title": "Batch Process Completed",
+        "popup_done_msg": "Successfully processed {v_count} video(s) and saved {total_frames} photos!\n\nWould you like to open the output folder now?",
+        "popup_err_folder": "Could not open folder: {err}"
     }
 }
 
-class ExtractionWorker(QThread):
-    progress_signal = Signal(int, int, str)
-    finished_signal = Signal(int)
+class BatchWorker(QThread):
+    item_started_signal = Signal(int, int, str)
+    progress_signal = Signal(int, int, int, int, str)
+    all_finished_signal = Signal(int, int, str)
     error_signal = Signal(str)
 
-    def __init__(self, video_path, output_dir, mode, interval, start_sec, end_sec, img_format, quality):
+    def __init__(self, video_paths, custom_output_dir, mode, interval, start_sec, end_sec, zoom_factor, zoom_pos, img_format, quality):
         super().__init__()
-        self.video_path = video_path
-        self.output_dir = output_dir
+        self.video_paths = video_paths
+        self.custom_output_dir = custom_output_dir
         self.mode = mode
         self.interval = interval
         self.start_sec = start_sec
         self.end_sec = end_sec
+        self.zoom_factor = zoom_factor
+        self.zoom_pos = zoom_pos
         self.img_format = img_format
         self.quality = quality
         self.is_cancelled = False
 
     def run(self):
         try:
-            def callback(saved, total, filename):
-                if self.is_cancelled:
-                    return False
-                self.progress_signal.emit(saved, total, filename)
-                return True
+            total_videos = len(self.video_paths)
+            grand_total_frames = 0
+            last_out_dir = ""
 
-            count = extract_frames(
-                video_path=self.video_path,
-                output_dir=self.output_dir,
-                mode=self.mode,
-                interval_value=self.interval,
-                start_sec=self.start_sec,
-                end_sec=self.end_sec,
-                image_format=self.img_format,
-                quality=self.quality,
-                progress_callback=callback
-            )
-            self.finished_signal.emit(count)
+            for idx, vpath in enumerate(self.video_paths):
+                if self.is_cancelled:
+                    break
+
+                fname = os.path.basename(vpath)
+                self.item_started_signal.emit(idx + 1, total_videos, fname)
+
+                if self.custom_output_dir and os.path.isdir(self.custom_output_dir):
+                    vstem = os.path.splitext(fname)[0]
+                    target_out = os.path.join(self.custom_output_dir, f"{vstem}_frames")
+                else:
+                    vdir = os.path.dirname(os.path.abspath(vpath))
+                    vstem = os.path.splitext(fname)[0]
+                    target_out = os.path.join(vdir, f"{vstem}_frames")
+
+                last_out_dir = target_out
+
+                def callback(saved, total, current_file):
+                    if self.is_cancelled:
+                        return False
+                    self.progress_signal.emit(idx + 1, total_videos, saved, total, current_file)
+                    return True
+
+                count = extract_frames(
+                    video_path=vpath,
+                    output_dir=target_out,
+                    mode=self.mode,
+                    interval_value=self.interval,
+                    start_sec=self.start_sec,
+                    end_sec=self.end_sec if self.end_sec > 0 else None,
+                    image_format=self.img_format,
+                    quality=self.quality,
+                    zoom_factor=self.zoom_factor,
+                    zoom_position=self.zoom_pos,
+                    progress_callback=callback
+                )
+                grand_total_frames += count
+
+            self.all_finished_signal.emit(total_videos, grand_total_frames, last_out_dir)
         except Exception as e:
             self.error_signal.emit(str(e))
 
@@ -144,11 +191,11 @@ class MainWindow(QMainWindow):
     def __init__(self, default_lang="tr"):
         super().__init__()
         self.current_lang = default_lang
-        self.setMinimumSize(740, 700)
+        self.setMinimumSize(860, 760)
         self.setAcceptDrops(True)
-        self.video_path = ""
-        self.video_info = None
+        self.video_paths = []
         self.worker = None
+        self.last_output_dir = ""
 
         self.apply_stylesheet()
         self.init_ui()
@@ -182,15 +229,19 @@ class MainWindow(QMainWindow):
                 padding: 0 5px;
                 color: #63B3ED;
             }
-            QLineEdit, QSpinBox, QDoubleSpinBox, QComboBox {
+            QLineEdit, QSpinBox, QDoubleSpinBox, QComboBox, QListWidget {
                 background-color: #2D3748;
                 border: 1px solid #4A5568;
                 border-radius: 6px;
                 padding: 6px 10px;
                 color: #FFFFFF;
             }
-            QLineEdit:focus, QSpinBox:focus, QDoubleSpinBox:focus, QComboBox:focus {
-                border: 1px solid #3182CE;
+            QListWidget::item {
+                padding: 6px;
+                border-bottom: 1px solid #374151;
+            }
+            QListWidget::item:selected {
+                background-color: #2B6CB0;
             }
             QPushButton {
                 background-color: #2B6CB0;
@@ -256,15 +307,6 @@ class MainWindow(QMainWindow):
                 border: 2px solid #718096;
                 border-radius: 8px;
             }
-            QFrame#drop_area {
-                border: 2px dashed #4A5568;
-                border-radius: 10px;
-                background-color: #171F2E;
-            }
-            QFrame#drop_area:hover {
-                border-color: #63B3ED;
-                background-color: #1C2638;
-            }
         """)
 
     def init_ui(self):
@@ -273,9 +315,9 @@ class MainWindow(QMainWindow):
         main_layout.setContentsMargins(20, 16, 20, 20)
         main_layout.setSpacing(12)
 
-        # Header Bar: Dil Değiştirici & Geliştirici Linki
+        # Top Bar: Website Link & Language Dropdown
         top_bar = QHBoxLayout()
-        self.dev_label = QLabel("<a href='https://www.eroldizdar.tr/' style='color: #63B3ED; text-decoration: none;'>🌐 eroldizdar.tr</a>")
+        self.dev_label = QLabel("<a href='https://www.eroldizdar.tr/p/video-to-frames.html' style='color: #63B3ED; text-decoration: none; font-weight: bold;'>🌐 eroldizdar.tr / Video to Frames Pro</a>")
         self.dev_label.setOpenExternalLinks(True)
         top_bar.addWidget(self.dev_label)
         top_bar.addStretch()
@@ -289,47 +331,46 @@ class MainWindow(QMainWindow):
         top_bar.addWidget(self.lang_combo)
         main_layout.addLayout(top_bar)
 
-        # 1. Video Seçim Alanı
-        self.drop_area = QFrame()
-        self.drop_area.setObjectName("drop_area")
-        drop_layout = QVBoxLayout(self.drop_area)
-        drop_layout.setContentsMargins(15, 15, 15, 15)
-        drop_layout.setAlignment(Qt.AlignCenter)
+        # Playlist / Video List Area
+        self.playlist_group = QGroupBox()
+        pl_layout = QVBoxLayout(self.playlist_group)
 
-        self.drop_label = QLabel()
-        self.drop_label.setAlignment(Qt.AlignCenter)
-        self.drop_label.setStyleSheet("font-size: 14px; font-weight: bold; color: #CBD5E0;")
-        drop_layout.addWidget(self.drop_label)
+        self.video_list_widget = QListWidget()
+        self.video_list_widget.setFixedHeight(120)
+        pl_layout.addWidget(self.video_list_widget)
 
-        btn_hlayout = QHBoxLayout()
-        btn_hlayout.setAlignment(Qt.AlignCenter)
-        self.browse_video_btn = QPushButton()
-        self.browse_video_btn.clicked.connect(self.choose_video_dialog)
-        btn_hlayout.addWidget(self.browse_video_btn)
-        drop_layout.addLayout(btn_hlayout)
+        pl_btn_layout = QHBoxLayout()
+        self.btn_add = QPushButton()
+        self.btn_add.clicked.connect(self.choose_videos_dialog)
+        pl_btn_layout.addWidget(self.btn_add)
 
-        main_layout.addWidget(self.drop_area)
+        self.btn_clear = QPushButton()
+        self.btn_clear.clicked.connect(self.clear_playlist)
+        pl_btn_layout.addWidget(self.btn_clear)
 
-        # Video Bilgi Etiketi
-        self.video_info_label = QLabel()
-        self.video_info_label.setStyleSheet("color: #A0AEC0; font-size: 12px; margin-left: 2px;")
-        main_layout.addWidget(self.video_info_label)
+        self.lbl_drop_hint = QLabel()
+        self.lbl_drop_hint.setStyleSheet("color: #A0AEC0; font-style: italic;")
+        pl_btn_layout.addWidget(self.lbl_drop_hint)
+        pl_btn_layout.addStretch()
 
-        # 2. Çıktı Klasörü Grubu
+        pl_layout.addLayout(pl_btn_layout)
+        main_layout.addWidget(self.playlist_group)
+
+        # Output Folder Group
         self.output_group = QGroupBox()
-        output_layout = QHBoxLayout(self.output_group)
+        out_layout = QHBoxLayout(self.output_group)
         self.output_edit = QLineEdit()
-        output_layout.addWidget(self.output_edit)
+        out_layout.addWidget(self.output_edit)
 
-        self.browse_output_btn = QPushButton()
-        self.browse_output_btn.clicked.connect(self.choose_output_dialog)
-        output_layout.addWidget(self.browse_output_btn)
+        self.browse_out_btn = QPushButton()
+        self.browse_out_btn.clicked.connect(self.choose_output_dialog)
+        out_layout.addWidget(self.browse_out_btn)
         main_layout.addWidget(self.output_group)
 
-        # 3. Kare Alma Modu Grubu
+        # Mode Selection Group
         self.mode_group = QGroupBox()
         mode_layout = QVBoxLayout(self.mode_group)
-        mode_layout.setSpacing(10)
+        mode_layout.setSpacing(8)
 
         self.btn_group = QButtonGroup(self)
 
@@ -380,7 +421,52 @@ class MainWindow(QMainWindow):
 
         main_layout.addWidget(self.mode_group)
 
-        # 4. Format ve Kalite Ayarları
+        # Zoom & Trimming Group
+        self.adv_group = QGroupBox()
+        adv_layout = QHBoxLayout(self.adv_group)
+
+        self.lbl_zoom = QLabel()
+        adv_layout.addWidget(self.lbl_zoom)
+
+        self.combo_zoom = QComboBox()
+        self.combo_zoom.addItem("1.0x (Normal)", 1.0)
+        self.combo_zoom.addItem("1.25x Zoom", 1.25)
+        self.combo_zoom.addItem("1.5x Zoom", 1.5)
+        self.combo_zoom.addItem("2.0x (2 Kat)", 2.0)
+        self.combo_zoom.addItem("3.0x (3 Kat)", 3.0)
+        adv_layout.addWidget(self.combo_zoom)
+
+        adv_layout.addSpacing(10)
+        self.lbl_zoom_pos = QLabel()
+        adv_layout.addWidget(self.lbl_zoom_pos)
+
+        self.combo_zoom_pos = QComboBox()
+        self.combo_zoom_pos.addItem("Merkez", "center")
+        self.combo_zoom_pos.addItem("Sol Üst", "top-left")
+        self.combo_zoom_pos.addItem("Sağ Üst", "top-right")
+        self.combo_zoom_pos.addItem("Sol Alt", "bottom-left")
+        self.combo_zoom_pos.addItem("Sağ Alt", "bottom-right")
+        adv_layout.addWidget(self.combo_zoom_pos)
+
+        adv_layout.addSpacing(15)
+        self.lbl_start = QLabel()
+        adv_layout.addWidget(self.lbl_start)
+        self.spin_start = QDoubleSpinBox()
+        self.spin_start.setRange(0, 86400)
+        self.spin_start.setSuffix(" sn")
+        adv_layout.addWidget(self.spin_start)
+
+        self.lbl_end = QLabel()
+        adv_layout.addWidget(self.lbl_end)
+        self.spin_end = QDoubleSpinBox()
+        self.spin_end.setRange(0, 86400)
+        self.spin_end.setSuffix(" sn")
+        adv_layout.addWidget(self.spin_end)
+
+        adv_layout.addStretch()
+        main_layout.addWidget(self.adv_group)
+
+        # Format & Quality Group
         self.fmt_group = QGroupBox()
         fmt_layout = QHBoxLayout(self.fmt_group)
 
@@ -400,7 +486,7 @@ class MainWindow(QMainWindow):
 
         main_layout.addWidget(self.fmt_group)
 
-        # 5. İlerleme ve Durum
+        # Progress & Status
         self.progress_bar = QProgressBar()
         self.progress_bar.setValue(0)
         self.progress_bar.setTextVisible(True)
@@ -410,7 +496,7 @@ class MainWindow(QMainWindow):
         self.status_label.setStyleSheet("color: #A0AEC0; font-style: italic;")
         main_layout.addWidget(self.status_label)
 
-        # 6. Kontrol Butonları
+        # Action Buttons
         actions_layout = QHBoxLayout()
         self.start_btn = QPushButton()
         self.start_btn.setObjectName("action_btn")
@@ -438,18 +524,15 @@ class MainWindow(QMainWindow):
     def update_language(self, lang_code):
         self.current_lang = lang_code
         self.setWindowTitle(self.t("title"))
+        self.playlist_group.setTitle(self.t("playlist_title"))
+        self.btn_add.setText(self.t("btn_add_videos"))
+        self.btn_clear.setText(self.t("btn_clear_list"))
+        self.lbl_drop_hint.setText(self.t("drop_hint"))
 
-        if not self.video_path:
-            self.drop_label.setText(self.t("drop_hint"))
-            self.video_info_label.setText(self.t("video_selected"))
-            self.status_label.setText(self.t("status_ready"))
-        else:
-            self.update_video_info_text()
-
-        self.browse_video_btn.setText(self.t("browse_video"))
         self.output_group.setTitle(self.t("output_group"))
         self.output_edit.setPlaceholderText(self.t("output_placeholder"))
-        self.browse_output_btn.setText(self.t("browse_output"))
+        self.browse_out_btn.setText(self.t("browse_output"))
+
         self.mode_group.setTitle(self.t("mode_group"))
         self.radio_sec.setText(self.t("mode_sec"))
         self.spin_sec.setSuffix(self.t("sec_suffix"))
@@ -458,9 +541,26 @@ class MainWindow(QMainWindow):
         self.radio_interval_frames.setText(self.t("mode_frames"))
         self.spin_interval_frames.setSuffix(self.t("frames_suffix"))
         self.radio_every.setText(self.t("mode_every"))
+
+        self.adv_group.setTitle(self.t("adv_group"))
+        self.lbl_zoom.setText(self.t("zoom_label"))
+        self.lbl_zoom_pos.setText(self.t("zoom_pos_label"))
+        self.lbl_start.setText(self.t("trim_start"))
+        self.lbl_end.setText(self.t("trim_end"))
+
+        # Update zoom pos combo
+        cur_pos_idx = self.combo_zoom_pos.currentIndex()
+        self.combo_zoom_pos.clear()
+        self.combo_zoom_pos.addItem(self.t("zoom_center"), "center")
+        self.combo_zoom_pos.addItem(self.t("zoom_top_left"), "top-left")
+        self.combo_zoom_pos.addItem(self.t("zoom_top_right"), "top-right")
+        self.combo_zoom_pos.addItem(self.t("zoom_bottom_left"), "bottom-left")
+        self.combo_zoom_pos.addItem(self.t("zoom_bottom_right"), "bottom-right")
+        if cur_pos_idx >= 0:
+            self.combo_zoom_pos.setCurrentIndex(cur_pos_idx)
+
         self.fmt_group.setTitle(self.t("format_group"))
         self.lbl_format.setText(self.t("format_label"))
-
         cur_fmt_idx = self.combo_fmt.currentIndex()
         self.combo_fmt.clear()
         self.combo_fmt.addItems([self.t("format_jpg"), self.t("format_png")])
@@ -468,22 +568,10 @@ class MainWindow(QMainWindow):
             self.combo_fmt.setCurrentIndex(cur_fmt_idx)
 
         self.lbl_quality.setText(self.t("quality_label"))
+        self.status_label.setText(self.t("status_ready"))
         self.start_btn.setText(self.t("btn_start"))
         self.cancel_btn.setText(self.t("btn_cancel"))
         self.open_folder_btn.setText(self.t("btn_open"))
-
-    def update_video_info_text(self):
-        if not self.video_info:
-            return
-        info = self.video_info
-        mins = int(info['duration_sec'] // 60)
-        secs = int(info['duration_sec'] % 60)
-        self.video_info_label.setText(
-            self.t("video_info_fmt").format(
-                mins=mins, secs=secs, w=info['width'], h=info['height'],
-                fps=info['fps'], total=info['total_frames']
-            )
-        )
 
     def dragEnterEvent(self, event: QDragEnterEvent):
         if event.mimeData().hasUrls():
@@ -491,38 +579,37 @@ class MainWindow(QMainWindow):
 
     def dropEvent(self, event: QDropEvent):
         urls = event.mimeData().urls()
-        if urls:
-            filepath = urls[0].toLocalFile()
-            if os.path.isfile(filepath):
-                self.load_video(filepath)
+        for u in urls:
+            path = u.toLocalFile()
+            if os.path.isfile(path):
+                self.add_video_to_list(path)
 
-    def choose_video_dialog(self):
-        filepath, _ = QFileDialog.getOpenFileName(
+    def choose_videos_dialog(self):
+        files, _ = QFileDialog.getOpenFileNames(
             self,
             self.t("dialog_title"),
             "",
             self.t("dialog_filter")
         )
-        if filepath:
-            self.load_video(filepath)
+        for f in files:
+            self.add_video_to_list(f)
 
-    def load_video(self, path):
-        try:
-            info = get_video_info(path)
-            self.video_path = path
-            self.video_info = info
+    def add_video_to_list(self, path):
+        if path not in self.video_paths:
+            try:
+                info = get_video_info(path)
+                self.video_paths.append(path)
+                mins = int(info['duration_sec'] // 60)
+                secs = int(info['duration_sec'] % 60)
+                fname = os.path.basename(path)
+                item_text = f"🎬 {fname}  ({mins:02d}:{secs:02d} | {info['width']}x{info['height']} | {info['fps']:.1f} fps)"
+                self.video_list_widget.addItem(QListWidgetItem(item_text))
+            except Exception:
+                pass
 
-            fname = os.path.basename(path)
-            self.drop_label.setText(f"✅ {fname}")
-            self.update_video_info_text()
-
-            vdir = os.path.dirname(os.path.abspath(path))
-            vstem = os.path.splitext(fname)[0]
-            default_out = os.path.join(vdir, f"{vstem}{self.t('folder_suffix')}")
-            self.output_edit.setText(default_out)
-            self.status_label.setText(self.t("status_ready"))
-        except Exception as e:
-            QMessageBox.critical(self, "Error", f"{e}")
+    def clear_playlist(self):
+        self.video_paths.clear()
+        self.video_list_widget.clear()
 
     def choose_output_dialog(self):
         d = QFileDialog.getExistingDirectory(self, self.t("dialog_out_title"))
@@ -530,18 +617,12 @@ class MainWindow(QMainWindow):
             self.output_edit.setText(d)
 
     def start_extraction(self):
-        if not self.video_path or not os.path.isfile(self.video_path):
+        if not self.video_paths:
             QMessageBox.warning(self, "Warning", self.t("warn_no_video"))
-            return
-
-        out_dir = self.output_edit.text().strip()
-        if not out_dir:
-            QMessageBox.warning(self, "Warning", self.t("warn_no_dir"))
             return
 
         mode = "seconds"
         interval = 1.0
-
         if self.radio_sec.isChecked():
             mode = "seconds"
             interval = self.spin_sec.value()
@@ -557,44 +638,57 @@ class MainWindow(QMainWindow):
 
         fmt = "jpg" if self.combo_fmt.currentIndex() == 0 else "png"
         qual = self.spin_qual.value()
+        zoom_factor = self.combo_zoom.currentData()
+        zoom_pos = self.combo_zoom_pos.currentData()
+        start_sec = self.spin_start.value()
+        end_sec = self.spin_end.value()
+        custom_out = self.output_edit.text().strip()
 
         self.progress_bar.setValue(0)
         self.start_btn.setEnabled(False)
         self.cancel_btn.setEnabled(True)
         self.open_folder_btn.setEnabled(False)
-        self.status_label.setText(self.t("status_processing"))
 
-        self.worker = ExtractionWorker(
-            video_path=self.video_path,
-            output_dir=out_dir,
+        self.worker = BatchWorker(
+            video_paths=list(self.video_paths),
+            custom_output_dir=custom_out,
             mode=mode,
             interval=interval,
-            start_sec=0.0,
-            end_sec=None,
+            start_sec=start_sec,
+            end_sec=end_sec,
+            zoom_factor=zoom_factor,
+            zoom_pos=zoom_pos,
             img_format=fmt,
             quality=qual
         )
+        self.worker.item_started_signal.connect(self.on_item_started)
         self.worker.progress_signal.connect(self.on_progress)
-        self.worker.finished_signal.connect(self.on_finished)
+        self.worker.all_finished_signal.connect(self.on_all_finished)
         self.worker.error_signal.connect(self.on_error)
         self.worker.start()
 
-    def on_progress(self, saved, total, current_file):
-        pct = int((saved / total) * 100) if total > 0 else 0
-        self.progress_bar.setValue(pct)
-        self.status_label.setText(self.t("status_progress").format(saved=saved, total=total, file=current_file))
+    def on_item_started(self, cur_idx, total_v, fname):
+        self.status_label.setText(self.t("status_processing").format(cur_idx=cur_idx, total_videos=total_v, fname=fname))
 
-    def on_finished(self, total_saved):
+    def on_progress(self, cur_idx, total_v, saved, total_expected, current_file):
+        pct = int((saved / total_expected) * 100) if total_expected > 0 else 0
+        self.progress_bar.setValue(pct)
+        self.status_label.setText(self.t("status_progress").format(
+            cur_idx=cur_idx, total_videos=total_v, saved=saved, total_expected=total_expected, file=current_file
+        ))
+
+    def on_all_finished(self, v_count, total_frames, last_dir):
+        self.last_output_dir = last_dir
         self.progress_bar.setValue(100)
-        self.status_label.setText(self.t("status_done").format(total=total_saved))
+        self.status_label.setText(self.t("status_done").format(v_count=v_count, total_frames=total_frames))
         self.start_btn.setEnabled(True)
         self.cancel_btn.setEnabled(False)
         self.open_folder_btn.setEnabled(True)
-        
+
         reply = QMessageBox.information(
             self,
             self.t("popup_done_title"),
-            self.t("popup_done_msg").format(total=total_saved),
+            self.t("popup_done_msg").format(v_count=v_count, total_frames=total_frames),
             QMessageBox.Yes | QMessageBox.No,
             QMessageBox.Yes
         )
@@ -614,10 +708,10 @@ class MainWindow(QMainWindow):
             self.cancel_btn.setEnabled(False)
 
     def open_output_folder(self):
-        out_dir = self.output_edit.text().strip()
-        if os.path.exists(out_dir):
+        target = self.output_edit.text().strip() or self.last_output_dir
+        if target and os.path.exists(target):
             try:
-                os.startfile(out_dir)
+                os.startfile(target)
             except Exception as e:
                 QMessageBox.warning(self, "Error", self.t("popup_err_folder").format(err=e))
 
@@ -626,7 +720,6 @@ def main():
     parser.add_argument("--lang", choices=["tr", "en"], default="tr", help="Default language")
     args, unknown = parser.parse_known_args()
 
-    # If filename contains 'en' or 'VideoToFrames', default to English
     prog_name = os.path.basename(sys.argv[0]).lower()
     default_lang = args.lang
     if "en" in prog_name or "videotoframes" in prog_name:
