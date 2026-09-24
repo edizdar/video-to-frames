@@ -1,4 +1,4 @@
-﻿import os
+import os
 import sys
 import argparse
 from PySide6.QtWidgets import (
@@ -146,7 +146,7 @@ class MainWindow(QMainWindow):
     def __init__(self, default_lang="tr"):
         super().__init__()
         self.current_lang = default_lang
-        self.resize(740, 590)
+        self.resize(750, 650)
         self.setMinimumSize(640, 480)
         self.setAcceptDrops(True)
         self.video_path = ""
@@ -208,51 +208,11 @@ class MainWindow(QMainWindow):
                 border: 1px solid #475569;
                 border-radius: 6px;
                 padding-left: 8px;
-                padding-right: 26px;
+                padding-right: 4px;
                 color: #38BDF8;
                 font-weight: bold;
                 font-size: 13px;
                 min-height: 28px;
-                max-height: 30px;
-            }
-            QSpinBox::up-button, QDoubleSpinBox::up-button {
-                subcontrol-origin: border;
-                subcontrol-position: top right;
-                width: 22px;
-                height: 14px;
-                border-left: 1px solid #475569;
-                border-bottom: 1px solid #475569;
-                border-top-right-radius: 5px;
-                background-color: #1E293B;
-            }
-            QSpinBox::up-button:hover, QDoubleSpinBox::up-button:hover {
-                background-color: #334155;
-            }
-            QSpinBox::down-button, QDoubleSpinBox::down-button {
-                subcontrol-origin: border;
-                subcontrol-position: bottom right;
-                width: 22px;
-                height: 14px;
-                border-left: 1px solid #475569;
-                border-bottom-right-radius: 5px;
-                background-color: #1E293B;
-            }
-            QSpinBox::down-button:hover, QDoubleSpinBox::down-button:hover {
-                background-color: #334155;
-            }
-            QSpinBox::up-arrow, QDoubleSpinBox::up-arrow {
-                width: 7px;
-                height: 5px;
-                border-left: 4px solid transparent;
-                border-right: 4px solid transparent;
-                border-bottom: 5px solid #38BDF8;
-            }
-            QSpinBox::down-arrow, QDoubleSpinBox::down-arrow {
-                width: 7px;
-                height: 5px;
-                border-left: 4px solid transparent;
-                border-right: 4px solid transparent;
-                border-top: 5px solid #38BDF8;
             }
             QComboBox {
                 background-color: #0F172A;
@@ -454,7 +414,7 @@ class MainWindow(QMainWindow):
         self.spin_sec.setSingleStep(0.5)
         self.spin_sec.setValue(1.0)
         self.spin_sec.setAlignment(Qt.AlignCenter)
-        self.spin_sec.setFixedWidth(80)
+        self.spin_sec.setFixedWidth(115)
         grid.addWidget(self.spin_sec, 0, 1, Qt.AlignVCenter)
 
         self.lbl_unit_sec = QLabel()
@@ -474,7 +434,7 @@ class MainWindow(QMainWindow):
         self.spin_total.setRange(1, 100000)
         self.spin_total.setValue(50)
         self.spin_total.setAlignment(Qt.AlignCenter)
-        self.spin_total.setFixedWidth(80)
+        self.spin_total.setFixedWidth(115)
         grid.addWidget(self.spin_total, 1, 1, Qt.AlignVCenter)
 
         self.lbl_unit_total = QLabel()
@@ -494,7 +454,7 @@ class MainWindow(QMainWindow):
         self.spin_interval_frames.setRange(1, 5000)
         self.spin_interval_frames.setValue(30)
         self.spin_interval_frames.setAlignment(Qt.AlignCenter)
-        self.spin_interval_frames.setFixedWidth(80)
+        self.spin_interval_frames.setFixedWidth(115)
         grid.addWidget(self.spin_interval_frames, 2, 1, Qt.AlignVCenter)
 
         self.lbl_unit_frames = QLabel()
@@ -530,7 +490,7 @@ class MainWindow(QMainWindow):
         self.spin_qual.setRange(10, 100)
         self.spin_qual.setValue(95)
         self.spin_qual.setAlignment(Qt.AlignCenter)
-        self.spin_qual.setFixedWidth(70)
+        self.spin_qual.setFixedWidth(90)
         fmt_layout.addWidget(self.spin_qual)
         fmt_layout.addStretch()
 
