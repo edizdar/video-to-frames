@@ -1,4 +1,4 @@
-﻿import os
+import os
 import cv2
 import numpy as np
 from typing import Callable, Optional
@@ -104,7 +104,8 @@ def extract_frames(
     total_to_extract = len(target_frame_indices)
     saved_count = 0
     
-    padding = max(5, len(str(total_to_extract)))
+    video_stem = os.path.splitext(os.path.basename(video_path))[0]
+    padding = max(4, len(str(total_to_extract)))
     target_set = set(target_frame_indices)
     max_target = max(target_frame_indices) if target_frame_indices else 0
     
@@ -122,10 +123,9 @@ def extract_frames(
             timestamp_sec = current_frame / fps
             mins = int(timestamp_sec // 60)
             secs = int(timestamp_sec % 60)
-            millis = int((timestamp_sec - int(timestamp_sec)) * 1000)
             
             saved_count += 1
-            filename = f"kare_{saved_count:0{padding}d}_{mins:02d}m{secs:02d}s_{millis:03d}ms.{image_format.lower()}"
+            filename = f"{video_stem}_kare_{saved_count:0{padding}d}_{mins:02d}m{secs:02d}s.{image_format.lower()}"
             out_path = os.path.join(output_dir, filename)
             
             save_image_utf8(out_path, frame, quality=quality)
