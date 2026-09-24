@@ -4,7 +4,7 @@ import argparse
 from PySide6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
     QLabel, QPushButton, QFileDialog, QRadioButton, QButtonGroup,
-    QDoubleSpinBox, QSpinBox, QProgressBar, QGroupBox, QLineEdit,
+    QDoubleSpinBox, QSpinBox, QAbstractSpinBox, QProgressBar, QGroupBox, QLineEdit,
     QComboBox, QMessageBox, QFrame, QGridLayout, QScrollArea, QSizePolicy
 )
 from PySide6.QtCore import Qt, QThread, Signal
@@ -207,12 +207,33 @@ class MainWindow(QMainWindow):
                 background-color: #0F172A;
                 border: 1px solid #475569;
                 border-radius: 6px;
-                padding-left: 8px;
-                padding-right: 4px;
+                padding: 0 4px;
                 color: #38BDF8;
                 font-weight: bold;
-                font-size: 13px;
+                font-size: 14px;
                 min-height: 28px;
+            }
+            QPushButton#step_btn {
+                background-color: #1E293B;
+                color: #38BDF8;
+                border: 1px solid #475569;
+                border-radius: 6px;
+                font-size: 16px;
+                font-weight: bold;
+                min-height: 28px;
+                max-height: 28px;
+                min-width: 28px;
+                max-width: 28px;
+                padding: 0px;
+            }
+            QPushButton#step_btn:hover {
+                background-color: #334155;
+                border-color: #38BDF8;
+                color: #FFFFFF;
+            }
+            QPushButton#step_btn:pressed {
+                background-color: #0284C7;
+                color: #FFFFFF;
             }
             QComboBox {
                 background-color: #0F172A;
@@ -305,6 +326,39 @@ class MainWindow(QMainWindow):
                 background-color: #24344D;
             }
         """)
+
+    def create_stepper(self, spinbox, width=68):
+        container = QWidget()
+        layout = QHBoxLayout(container)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(3)
+
+        spinbox.setButtonSymbols(QAbstractSpinBox.NoButtons)
+        spinbox.setAlignment(Qt.AlignCenter)
+        spinbox.setFixedSize(width, 28)
+
+        btn_minus = QPushButton("−")
+        btn_minus.setObjectName("step_btn")
+        btn_minus.setFixedSize(28, 28)
+        btn_minus.setCursor(Qt.PointingHandCursor)
+        btn_minus.setAutoRepeat(True)
+        btn_minus.setAutoRepeatDelay(400)
+        btn_minus.setAutoRepeatInterval(80)
+        btn_minus.clicked.connect(spinbox.stepDown)
+
+        btn_plus = QPushButton("+")
+        btn_plus.setObjectName("step_btn")
+        btn_plus.setFixedSize(28, 28)
+        btn_plus.setCursor(Qt.PointingHandCursor)
+        btn_plus.setAutoRepeat(True)
+        btn_plus.setAutoRepeatDelay(400)
+        btn_plus.setAutoRepeatInterval(80)
+        btn_plus.clicked.connect(spinbox.stepUp)
+
+        layout.addWidget(btn_minus)
+        layout.addWidget(spinbox)
+        layout.addWidget(btn_plus)
+        return container
 
     def init_ui(self, base_dir):
         central_widget = QWidget()
@@ -413,9 +467,7 @@ class MainWindow(QMainWindow):
         self.spin_sec.setRange(0.05, 3600.0)
         self.spin_sec.setSingleStep(0.5)
         self.spin_sec.setValue(1.0)
-        self.spin_sec.setAlignment(Qt.AlignCenter)
-        self.spin_sec.setFixedWidth(115)
-        grid.addWidget(self.spin_sec, 0, 1, Qt.AlignVCenter)
+        grid.addWidget(self.create_stepper(self.spin_sec, 68), 0, 1, Qt.AlignVCenter)
 
         self.lbl_unit_sec = QLabel()
         self.lbl_unit_sec.setStyleSheet("font-weight: 500; color: #F1F5F9;")
@@ -432,10 +484,9 @@ class MainWindow(QMainWindow):
 
         self.spin_total = QSpinBox()
         self.spin_total.setRange(1, 100000)
+        self.spin_total.setSingleStep(5)
         self.spin_total.setValue(50)
-        self.spin_total.setAlignment(Qt.AlignCenter)
-        self.spin_total.setFixedWidth(115)
-        grid.addWidget(self.spin_total, 1, 1, Qt.AlignVCenter)
+        grid.addWidget(self.create_stepper(self.spin_total, 68), 1, 1, Qt.AlignVCenter)
 
         self.lbl_unit_total = QLabel()
         self.lbl_unit_total.setStyleSheet("font-weight: 500; color: #F1F5F9;")
@@ -452,10 +503,9 @@ class MainWindow(QMainWindow):
 
         self.spin_interval_frames = QSpinBox()
         self.spin_interval_frames.setRange(1, 5000)
+        self.spin_interval_frames.setSingleStep(5)
         self.spin_interval_frames.setValue(30)
-        self.spin_interval_frames.setAlignment(Qt.AlignCenter)
-        self.spin_interval_frames.setFixedWidth(115)
-        grid.addWidget(self.spin_interval_frames, 2, 1, Qt.AlignVCenter)
+        grid.addWidget(self.create_stepper(self.spin_interval_frames, 68), 2, 1, Qt.AlignVCenter)
 
         self.lbl_unit_frames = QLabel()
         self.lbl_unit_frames.setStyleSheet("font-weight: 500; color: #F1F5F9;")
@@ -488,10 +538,9 @@ class MainWindow(QMainWindow):
         fmt_layout.addWidget(self.lbl_quality)
         self.spin_qual = QSpinBox()
         self.spin_qual.setRange(10, 100)
+        self.spin_qual.setSingleStep(5)
         self.spin_qual.setValue(95)
-        self.spin_qual.setAlignment(Qt.AlignCenter)
-        self.spin_qual.setFixedWidth(90)
-        fmt_layout.addWidget(self.spin_qual)
+        fmt_layout.addWidget(self.create_stepper(self.spin_qual, 52))
         fmt_layout.addStretch()
 
         content_layout.addWidget(self.fmt_group)
